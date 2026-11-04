@@ -8,7 +8,6 @@
 </head>
 <body>
     <header>
-        <!-- Aquí irá la barra de navegación del wireframe de la Home -->
         <h1>Cultura Nacional</h1>
         <nav>
             <ul>
@@ -21,9 +20,50 @@
     </header>
 
     <main>
-        <section>
+        <section class="banner">
             <h2>Nueva Colección Otoño</h2>
-            <p>Estilo que te acompaña en cada temporada.</p>
+            <p>Indumentaria con identidad, diseño y calidad nacional.</p>
+        </section>
+
+        <section class="productos-destacados">
+            <h3>Productos Destacados</h3>
+            <div class="grid-productos">
+                <!-- Producto 1 -->
+                <article class="card-producto">
+                    <div class="caja-imagen">
+                        <img src="./public/images/home.png" alt="Campera Urbana" style="width: 100%; height: 150px; object-fit: cover; background: #ddd;">
+                    </div>
+                    <div class="info-producto">
+                        <h4>Campera Urbana Federal</h4>
+                        <p class="precio">$45.000</p>
+                        <a href="productDetail.html" class="btn-ver">Ver Detalle</a>
+                    </div>
+                </article>
+
+                <!-- Producto 2 -->
+                <article class="card-producto">
+                    <div class="caja-imagen">
+                        <img src="./public/images/home.png" alt="Buzo Oversize" style="width: 100%; height: 150px; object-fit: cover; background: #ddd;">
+                    </div>
+                    <div class="info-producto">
+                        <h4>Buzo Oversize Rústico</h4>
+                        <p class="precio">$32.000</p>
+                        <a href="productDetail.html" class="btn-ver">Ver Detalle</a>
+                    </div>
+                </article>
+
+                <!-- Producto 3 -->
+                <article class="card-producto">
+                    <div class="caja-imagen">
+                        <img src="./public/images/home.png" alt="Remera Estampada" style="width: 100%; height: 150px; object-fit: cover; background: #ddd;">
+                    </div>
+                    <div class="info-producto">
+                        <h4>Remera Algodón Premium</h4>
+                        <p class="precio">$18.000</p>
+                        <a href="productDetail.html" class="btn-ver">Ver Detalle</a>
+                    </div>
+                </article>
+            </div>
         </section>
     </main>
 

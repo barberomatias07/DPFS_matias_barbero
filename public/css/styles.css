@@ -74,4 +74,62 @@ footer {
     padding: 1.5rem;
     margin-top: 3rem;
     font-size: 0.9rem;
+}.productos-destacados {
+    margin-top: 2rem;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+.productos-destacados h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #d4af37;
+    display: inline-block;
+}
+
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card-producto {
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-producto:hover {
+    transform: translateY(-5px);
+}
+
+.info-producto {
+    padding: 1.2rem;
+}
+
+.precio {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #27ae60;
+    margin: 0.5rem 0 1rem;
+}
+
+.btn-ver {
+    display: inline-block;
+    background-color: #1b1b1b;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.btn-ver:hover {
+    background-color: #d4af37;
+    color: #1b1b1b;
 }
