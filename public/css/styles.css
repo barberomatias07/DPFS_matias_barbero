@@ -132,4 +132,43 @@ footer {
 .btn-ver:hover {
     background-color: #d4af37;
     color: #1b1b1b;
+}/* --- ESTILOS PARA FORMULARIOS (LOGIN Y REGISTRO) --- */
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.form-container h2 {
+    margin-bottom: 1.5rem;
+    color: #1b1b1b;
+}
+
+.control-formulario {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.control-formulario label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.control-formulario input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.form-container p {
+    margin-top: 1.5rem;
+}
+
+.form-container a {
+    color: #d4af37;
+    font-weight: bold;
+    text-decoration: none;
 }
