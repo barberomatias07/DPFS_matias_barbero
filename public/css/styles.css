@@ -171,4 +171,91 @@ footer {
     color: #d4af37;
     font-weight: bold;
     text-decoration: none;
+}/* --- ESTILOS PARA EL CARRITO DE COMPRAS --- */
+.carrito-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+
+.carrito-container h2 {
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #1b1b1b;
+}
+
+.carrito-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid #ddd;
+    background-color: #ffffff;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+.carrito-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #f4f4f4;
+}
+
+.carrito-info {
+    flex-grow: 1;
+}
+
+.carrito-info h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.precio-item {
+    font-weight: bold;
+    color: #27ae60;
+    margin-top: 0.5rem;
+}
+
+.carrito-cantidad input {
+    width: 60px;
+    padding: 0.5rem;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.carrito-resumen {
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    text-align: right;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.carrito-resumen h3 {
+    margin-bottom: 1rem;
+}
+
+.carrito-resumen p {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn-pagar {
+    background-color: #27ae60;
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-pagar:hover {
+    background-color: #1e8449;
+    color: #fff;
 }

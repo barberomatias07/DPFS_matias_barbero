@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito - Cultura Nacional</title>
+    <link rel="stylesheet" href="./public/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Cultura Nacional</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productCart.html">Carrito</a></li>
+                <li><a href="login.html">Ingresar</a></li>
+                <li><a href="register.html">Registrarse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="carrito-container">
+            <h2>Tu Carrito</h2>
+            
+            <div class="carrito-items">
+                <!-- Producto 1 en carrito -->
+                <article class="carrito-item">
+                    <img src="./public/images/home.png" alt="Campera Urbana" class="carrito-img">
+                    <div class="carrito-info">
+                        <h4>Campera Urbana Federal</h4>
+                        <p>Talle: L</p>
+                        <p class="precio-item">$45.000</p>
+                    </div>
+                    <div class="carrito-cantidad">
+                        <label for="cant1">Cant:</label>
+                        <input type="number" id="cant1" value="1" min="1">
+                    </div>
+                </article>
+                
+                <!-- Producto 2 en carrito -->
+                <article class="carrito-item">
+                    <img src="./public/images/home.png" alt="Remera Estampada" class="carrito-img">
+                    <div class="carrito-info">
+                        <h4>Remera Algodón Premium</h4>
+                        <p>Talle: M</p>
+                        <p class="precio-item">$18.000</p>
+                    </div>
+                    <div class="carrito-cantidad">
+                        <label for="cant2">Cant:</label>
+                        <input type="number" id="cant2" value="2" min="1">
+                    </div>
+                </article>
+            </div>
+
+            <div class="carrito-resumen">
+                <h3>Resumen de compra</h3>
+                <p>Total: <strong>$81.000</strong></p>
+                <button class="btn-ver btn-pagar">Finalizar Compra</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Cultura Nacional - Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
