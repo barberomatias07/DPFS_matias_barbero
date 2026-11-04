@@ -342,4 +342,178 @@ footer {
 .btn-agregar:hover {
     background-color: #d4af37;
     color: #1b1b1b;
+}/* --- OVERHAUL ESTÉTICO: RESISTENCIA URBANA --- */
+body {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+.header-militante {
+    background-color: #000000;
+    border-bottom: 4px solid #cc0000;
+    padding: 1rem 0;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.top-bar h1 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.bandera {
+    width: 60px;
+    height: 40px;
+    border: 1px solid #333;
+    object-fit: cover;
+}
+
+nav ul li a {
+    color: #ffffff !important;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+nav ul li a:hover {
+    color: #cc0000 !important;
+}
+
+.banner-resistencia {
+    background-color: #0a0a0a !important;
+    border: 2px solid #333;
+    border-left: 8px solid #cc0000;
+    color: #fff !important;
+    text-align: left !important;
+    padding: 2rem !important;
+}
+
+.banner-resistencia h2 {
+    color: #cc0000;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.productos-destacados h3 {
+    color: #ffffff !important;
+    border-bottom: 3px solid #cc0000 !important;
+    text-transform: uppercase;
+}
+
+.card-producto {
+    background-color: #1a1a1a !important;
+    border: 1px solid #333;
+    border-radius: 0 !important; /* Bordes cuadrados, más industriales */
+}
+
+.info-producto h4 {
+    color: #ffffff !important;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.autor-frase {
+    color: #888;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.precio {
+    color: #cc0000 !important;
+}
+
+.btn-ver {
+    background-color: #cc0000 !important;
+    border-radius: 0 !important;
+    text-transform: uppercase;
+}
+
+.btn-ver:hover {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+footer {
+    background-color: #000000 !important;
+    border-top: 2px solid #cc0000;
+    color: #888 !important;
+}/* --- EFECTOS DINÁMICOS Y TRANSICIONES --- */
+.card-producto {
+    transition: all 0.3s ease;
+}
+
+/* Sombra dura estilo afiche callejero y borde rojo al pasar el mouse */
+.card-producto:hover {
+    transform: translateY(-5px);
+    border-color: #cc0000;
+    box-shadow: 6px 6px 0px #cc0000; 
+}
+
+/* Imágenes crudas en blanco y negro que toman color al hacer hover */
+.caja-imagen img {
+    transition: filter 0.4s ease;
+    filter: grayscale(100%) contrast(120%);
+}
+
+.card-producto:hover .caja-imagen img {
+    filter: grayscale(0%) contrast(100%);
+}
+
+/* Efecto de impacto pesado al clickear los botones */
+.btn-ver {
+    transition: transform 0.1s, background-color 0.3s;
+}
+
+.btn-ver:active {
+    transform: scale(0.95);
+}/* --- ADAPTACIÓN OSCURA PARA FORMULARIOS, CARRITO Y DETALLE --- */
+.form-container, .carrito-item, .carrito-resumen, .detalle-container {
+    background-color: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    box-shadow: none !important;
+    color: #e0e0e0;
+}
+
+.control-formulario input, .carrito-cantidad input, .opciones-compra select {
+    background-color: #222 !important;
+    color: #ffffff !important;
+    border: 1px solid #555 !important;
+}
+
+.form-container h2, .carrito-container h2, .carrito-item h4, .carrito-resumen h3, .detalle-info h2 {
+    color: #ffffff !important;
+}
+
+.precio-item, .precio-detalle {
+    color: #cc0000 !important;
+}
+
+.form-container a {
+    color: #cc0000 !important;
+}
+
+.form-container a:hover {
+    color: #ffffff !important;
+}
+
+.btn-pagar, .btn-agregar {
+    background-color: #cc0000 !important;
+    color: #ffffff !important;
+    border-radius: 0 !important;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.btn-pagar:hover, .btn-agregar:hover {
+    background-color: #ffffff !important;
+    color: #000000 !important;
 }

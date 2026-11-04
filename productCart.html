@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,8 +7,12 @@
     <link rel="stylesheet" href="./public/css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Cultura Nacional</h1>
+    <header class="header-militante">
+        <div class="top-bar">
+            <img src="./public/images/arg-flag.png" alt="Bandera Argentina" class="bandera" style="background: #75aadb;">
+            <h1>CULTURA NACIONAL</h1>
+            <img src="./public/images/antifa-flag.png" alt="Bandera Antifa" class="bandera" style="background: #cc0000;">
+        </div>
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
@@ -24,45 +28,30 @@
             <h2>Tu Carrito</h2>
             
             <div class="carrito-items">
-                <!-- Producto 1 en carrito -->
                 <article class="carrito-item">
-                    <img src="./public/images/home.png" alt="Campera Urbana" class="carrito-img">
+                    <img src="./public/images/home.png" alt="Remera Che" class="carrito-img" style="filter: grayscale(100%);">
                     <div class="carrito-info">
-                        <h4>Campera Urbana Federal</h4>
+                        <h4>Remera "Hasta la victoria siempre"</h4>
                         <p>Talle: L</p>
-                        <p class="precio-item">$45.000</p>
+                        <p class="precio-item">$18.000</p>
                     </div>
                     <div class="carrito-cantidad">
                         <label for="cant1">Cant:</label>
                         <input type="number" id="cant1" value="1" min="1">
                     </div>
                 </article>
-                
-                <!-- Producto 2 en carrito -->
-                <article class="carrito-item">
-                    <img src="./public/images/home.png" alt="Remera Estampada" class="carrito-img">
-                    <div class="carrito-info">
-                        <h4>Remera Algodón Premium</h4>
-                        <p>Talle: M</p>
-                        <p class="precio-item">$18.000</p>
-                    </div>
-                    <div class="carrito-cantidad">
-                        <label for="cant2">Cant:</label>
-                        <input type="number" id="cant2" value="2" min="1">
-                    </div>
-                </article>
             </div>
 
             <div class="carrito-resumen">
                 <h3>Resumen de compra</h3>
-                <p>Total: <strong>$81.000</strong></p>
+                <p>Total: <strong>$18.000</strong></p>
                 <button class="btn-ver btn-pagar">Finalizar Compra</button>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Cultura Nacional - Todos los derechos reservados.</p>
+        <p>&copy; 2026 Cultura Nacional - Organización y lucha.</p>
     </footer>
 </body>
 </html>
