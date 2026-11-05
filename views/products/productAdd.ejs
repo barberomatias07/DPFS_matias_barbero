@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/header') %>
+
+    <main style="display: flex; justify-content: center; padding: 3rem 1rem; background-color: #111;">
+        <div style="background-color: #1a1a1a; padding: 2.5rem; border-radius: 8px; border: 1px solid #333; width: 100%; max-width: 600px;">
+            
+            <h2 style="color: white; margin-bottom: 1.5rem; text-align: center;">Cargar Nuevo Producto</h2>
+            
+            <!-- Formulario de creación -->
+            <form action="/productos" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+                
+                <div>
+                    <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Nombre del producto:</label>
+                    <input type="text" name="name" placeholder="Ej: Remera Juan Domingo Perón" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;" required>
+                </div>
+
+                <div>
+                    <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Categoría:</label>
+                    <select name="category" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                        <option value="remera">Remera</option>
+                        <option value="buzo">Buzo</option>
+                        <option value="accesorio">Accesorio</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Talles disponibles (separados por coma):</label>
+                    <input type="text" name="sizes" placeholder="Ej: S, M, L, XL" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                </div>
+
+                <div>
+                    <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Precio ($):</label>
+                    <input type="number" name="price" placeholder="Ej: 18000" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;" required>
+                </div>
+
+                <div>
+                    <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Imagen del producto:</label>
+                    <!-- En el sprint 4 vas a usar type="file" con Multer, por ahora un input común de texto para la URL de la imagen sirve, o dejamos el file preparado -->
+                    <input type="file" name="image" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                </div>
+
+                <div>
+                    <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Descripción:</label>
+                    <textarea name="description" rows="4" placeholder="Ingresá la reseña histórica del producto..." style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; resize: none;" required></textarea>
+                </div>
+
+                <button type="submit" style="background-color: #cc0000; color: white; padding: 12px; border: none; cursor: pointer; font-weight: bold; margin-top: 1rem; text-transform: uppercase;">Guardar Producto</button>
+            </form>
+        </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,27 +1,23 @@
 const express = require('express');
 const path = require('path');
 
+// 1. Requerimos el archivo de rutas que acabás de crear
+const mainRoutes = require('./routes/mainRoutes');
+
 const app = express();
 
-// Le decimos a Express que permita leer los archivos de esta carpeta (para que cargue tus CSS y las imágenes)
-app.use(express.static(__dirname));
+// Configurar archivos estáticos (CSS, imágenes, etc.)
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Ruta principal: Cuando entremos a localhost:3000, va a cargar tu index.html
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+// Configurar EJS como motor de plantillas
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-// Ruta para el detalle estático general
-app.get('/detalle', (req, res) => {
-    res.sendFile(path.join(__dirname, 'productDetail.html'));
-});
-
-// Ruta para el carrito
-app.get('/carrito', (req, res) => {
-    res.sendFile(path.join(__dirname, 'productCart.html'));
-});
+// 2. Le decimos a Express que use las rutas separadas
+app.use('/', mainRoutes);
 
 // Levantamos el servidor en el puerto 3000
-app.listen(3000, () => {
-    console.log('¡Servidor de Cultura Nacional prendido y escuchando en http://localhost:3000!');
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`¡Servidor de Cultura Nacional prendido y escuchando en http://localhost:${PORT}!`);
 });

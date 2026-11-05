@@ -1,26 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ingresar - Cultura Nacional</title>
-    <link rel="stylesheet" href="./public/css/styles.css">
+    <%- include('../partials/head') %>
 </head>
 <body>
-    <header class="header-militante">
-        <div class="top-bar">
-            <img src="./bandera.jpg.jpg" alt="Bandera Argentina" class="bandera-decorativa">
-            <h1>CULTURA NACIONAL</h1>
-            <img src="./antifa.jpg.jpg" alt="Bandera Antifa" class="bandera-decorativa">
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="productCart.html">Carrito</a></li>
-                <li><a href="login.html">Ingresar / Registrarse</a></li>
-            </ul>
-        </nav>
-    </header>
+    <%- include('../partials/header') %>
 
     <main style="display: flex; justify-content: center; padding: 3rem 1rem; background-color: #111;">
         <!-- Contenedor forzado a color oscuro para tapar el parche blanco -->
@@ -66,8 +50,6 @@
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2026 Cultura Nacional - Organización y lucha.</p>
-    </footer>
+    <%- include('../partials/footer') %>
 </body>
 </html>

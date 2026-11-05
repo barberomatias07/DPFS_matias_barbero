@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/barberomatias07/DPFS_matias_barbero#readme",
   "dependencies": {
+    "ejs": "^7.0.2",
     "express": "^5.3.0"
   }
 }
