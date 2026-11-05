@@ -516,4 +516,192 @@ footer {
 .btn-pagar:hover, .btn-agregar:hover {
     background-color: #ffffff !important;
     color: #000000 !important;
+}/* --- ESTILOS PARA EL MANIFIESTO EXTENDIDO --- */
+.manifiesto-extenso {
+    max-width: 900px;
+    margin: 4rem auto;
+    padding: 3rem;
+    background-color: #161616;
+    border: 1px solid #333;
+    border-top: 6px solid #cc0000;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.manifiesto-header {
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 1.5rem;
+}
+
+.manifiesto-header h3 {
+    color: #ffffff;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.subtitulo-manifiesto {
+    color: #cc0000;
+    font-style: italic;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.manifiesto-cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.pilar-ideologico h4 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    border-left: 3px solid #cc0000;
+    padding-left: 0.8rem;
+}
+
+.pilar-ideologico p {
+    color: #cccccc;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0;
+}/* --- ESTÉTICA DE BANDERAS DECORATIVAS EN EL ENCABEZADO --- */
+.header-militante {
+    background-color: #000000;
+    border-bottom: 4px solid #cc0000;
+    padding: 1rem 0;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.top-bar h1 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.bandera-decorativa {
+    width: 90px;
+    height: 60px;
+    object-fit: cover;
+    border: 2px solid #333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s ease;
+}
+
+.bandera-decorativa:hover {
+    transform: scale(1.05);
+    border-color: #cc0000;
+}
+
+/* --- ESTILOS PARA LA SECCIÓN DEL PERIÓDICO Y CONTEXTO --- */
+.contexto-breve {
+    color: #aaaaaa;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+    min-height: 50px;
+}
+
+.seccion-suscripcion {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background-color: #1c0505;
+    border: 1px solid #551111;
+    border-left: 6px solid #cc0000;
+    text-align: center;
+}
+
+.seccion-suscripcion h3 {
+    color: #ffffff;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.seccion-suscripcion p {
+    color: #dddddd;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* --- ESTILOS PARA EL MANIFIESTO EXTENDIDO --- */
+.manifiesto-extenso {
+    max-width: 900px;
+    margin: 4rem auto;
+    padding: 3rem;
+    background-color: #161616;
+    border: 1px solid #333;
+    border-top: 6px solid #cc0000;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.manifiesto-header {
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 1.5rem;
+}
+
+.manifiesto-header h3 {
+    color: #ffffff;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.subtitulo-manifiesto {
+    color: #cc0000;
+    font-style: italic;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.manifiesto-cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.pilar-ideologico h4 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    border-left: 3px solid #cc0000;
+    padding-left: 0.8rem;
+}
+
+.pilar-ideologico p {
+    color: #cccccc;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0;
 }
