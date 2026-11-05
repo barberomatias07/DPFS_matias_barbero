@@ -15,8 +15,8 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="productCart.html">Carrito</a></li>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/carrito">Carrito</a></li>
                 <li><a href="login.html">Ingresar / Registrarse</a></li>
             </ul>
         </nav>
@@ -25,12 +25,10 @@
     <main style="display: flex; justify-content: center; padding: 3rem 1rem;">
         <section style="background-color: #1a1a1a; padding: 3rem; border-radius: 8px; border: 1px solid #333; display: flex; gap: 3rem; max-width: 900px; width: 100%; flex-wrap: wrap;">
             
-            <!-- Imagen dinámica del producto -->
             <div style="flex: 1; min-width: 300px;">
                 <img id="img-producto" src="./che.jpg.jpeg" alt="Remera" style="width: 100%; height: auto; border-radius: 4px; object-fit: cover; border: 1px solid #444;">
             </div>
 
-            <!-- Información dinámica del producto -->
             <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; justify-content: center;">
                 <h2 id="titulo-producto" style="color: white; margin-top: 0; margin-bottom: 1rem; font-size: 2rem;">Cargando...</h2>
                 <p style="color: #cc0000; font-size: 1.8rem; font-weight: bold; margin-bottom: 1.5rem;">$18.000</p>
@@ -50,9 +48,9 @@
                     </select>
                 </div>
 
-                <button style="background-color: #cc0000; color: white; border: none; padding: 1rem; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase;">
+                <a href="/carrito" style="background-color: #cc0000; color: white; border: none; padding: 1rem; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; text-align: center; text-decoration: none; display: inline-block;">
                     Agregar al carrito
-                </button>
+                </a>
             </div>
         </section>
     </main>
@@ -61,49 +59,16 @@
         <p>&copy; 2026 Cultura Nacional - Organización, memoria y lucha.</p>
     </footer>
 
-    <!-- Script que levanta los datos de cada uno de los 8 personajes -->
     <script>
         const productos = {
-            che: {
-                nombre: 'Ernesto "Che" Guevara',
-                img: './che.jpg.jpeg',
-                desc: 'Frase inmortalizada en su carta de despedida a Fidel Castro, símbolo universal de la lucha antiimperialista y la emancipación de los pueblos.'
-            },
-            favaloro: {
-                nombre: 'Dr. René Favaloro',
-                img: './favaloro.jpg.jpeg',
-                desc: 'Estandarte ético frente a la corrupción estructural y el vaciamiento de la salud y la educación pública en la Argentina.'
-            },
-            soto: {
-                nombre: 'José Font "Patón" Soto',
-                img: './soto.jpg.jpeg',
-                desc: 'Líder libertario de las huelgas patagónicas de 1921 en Santa Cruz, firme en la lucha obrera contra los fusilamientos de la estancia La Anita.'
-            },
-            bairoletto: {
-                nombre: 'Juan Bautista Bairoletto',
-                img: './bairoletto.jpg.jpeg',
-                desc: 'Bandido rural y justicia criollo de la década del \'30, protector de los desposeídos frente a los abusos de los terratenientes.'
-            },
-            facon: {
-                nombre: 'Facón Grande (Huelgas Patagónicas)',
-                img: './facon.jpg.jpeg',
-                desc: 'Reclamo histórico exigiendo dignidad y respeto por la vida de los trabajadores rurales explotados en la Patagonia trágica.'
-            },
-            indio: {
-                nombre: 'Indio Solari / Patricio Rey',
-                img: './indio.jpg.jpeg',
-                desc: 'Himno del rock contestatario sobre la autonomía mental, la autogestión y el cuidado de la libertad frente al aparato hegemónico.'
-            },
-            durruti: {
-                nombre: 'Buenaventura Durruti',
-                img: './durruti.jpg.jpeg',
-                desc: 'Máxima anarcosindicalista de combate directo frente al avance autoritario en la Revolución Española y la resistencia global.'
-            },
-            marx: {
-                nombre: 'Karl Marx',
-                img: './marx.jpg.jpeg',
-                desc: 'Cierre del Manifiesto Comunista, llamado universal a la abolición de la explotación asalariada y la emancipación obrera.'
-            }
+            che: { nombre: 'Ernesto "Che" Guevara', img: './che.jpg.jpeg', desc: 'Frase inmortalizada en su carta de despedida a Fidel Castro.' },
+            favaloro: { nombre: 'Dr. René Favaloro', img: './favaloro.jpg.jpeg', desc: 'Estandarte ético frente a la corrupción estructural.' },
+            soto: { nombre: 'José Font "Patón" Soto', img: './soto.jpg.jpeg', desc: 'Líder libertario de las huelgas patagónicas de 1921.' },
+            bairoletto: { nombre: 'Juan Bautista Bairoletto', img: './bairoletto.jpg.jpeg', desc: 'Bandido rural y justicia criollo de la década del \'30.' },
+            facon: { nombre: 'Facón Grande', img: './facon.jpg.jpeg', desc: 'Reclamo histórico exigiendo dignidad para los trabajadores rurales.' },
+            indio: { nombre: 'Indio Solari / Patricio Rey', img: './indio.jpg.jpeg', desc: 'Himno del rock contestatario sobre la autonomía mental.' },
+            durruti: { nombre: 'Buenaventura Durruti', img: './durruti.jpg.jpeg', desc: 'Máxima anarcosindicalista de combate directo.' },
+            marx: { nombre: 'Karl Marx', img: './marx.jpg.jpeg', desc: 'Cierre del Manifiesto Comunista y emancipación obrera.' }
         };
 
         const params = new URLSearchParams(window.location.search);
