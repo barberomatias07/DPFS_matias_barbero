@@ -4,53 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito - Cultura Nacional</title>
+    <!-- CSS Corregido -->
     <link rel="stylesheet" href="./public/css/styles.css">
 </head>
 <body>
     <header class="header-militante">
         <div class="top-bar">
+            <!-- Banderas Corregidas -->
             <img src="./bandera.jpg.jpg" alt="Bandera Argentina" class="bandera-decorativa">
             <h1>CULTURA NACIONAL</h1>
             <img src="./antifa.jpg.jpg" alt="Bandera Antifa" class="bandera-decorativa">
         </div>
         <nav>
             <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/carrito">Carrito</a></li>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productCart.html">Carrito</a></li>
                 <li><a href="login.html">Ingresar / Registrarse</a></li>
             </ul>
         </nav>
     </header>
 
-    <main style="padding: 3rem 1rem; max-width: 800px; margin: 0 auto; color: white;">
-        <h2 style="text-align: center; margin-bottom: 2rem;">Tu Trinchera de Compras</h2>
+    <main style="display: flex; flex-direction: column; align-items: center; padding: 2rem;">
+        <h2 style="color: white; margin-bottom: 2rem;">Tu Carrito</h2>
         
-        <div style="background-color: #1a1a1a; padding: 2rem; border-radius: 8px; border: 1px solid #333; margin-bottom: 2rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; padding-bottom: 1rem; margin-bottom: 1rem;">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <img src="./che.jpg.jpeg" alt="Che Guevara" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
-                    <div>
-                        <h4 style="margin: 0; font-size: 1.2rem;">Ernesto "Che" Guevara</h4>
-                        <p style="margin: 0.5rem 0 0 0; color: #aaa;">Talle: L | Cantidad: 1</p>
-                    </div>
+        <section style="background-color: #1a1a1a; padding: 2rem; border-radius: 5px; border: 1px solid #333; width: 100%; max-width: 600px; margin-bottom: 2rem;">
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <!-- Imagen del producto corregida -->
+                <img src="./che.jpg.jpeg" alt="Remera Che" style="width: 80px; height: 80px; object-fit: cover;">
+                
+                <div style="flex-grow: 1;">
+                    <h4 style="color: white; margin: 0 0 0.5rem 0;">Remera "Hasta la victoria siempre"</h4>
+                    <p style="color: #ccc; margin: 0 0 0.5rem 0; font-size: 0.9rem;">Talle: L</p>
+                    <p style="color: #cc0000; font-weight: bold; margin: 0;">$18.000</p>
                 </div>
-                <div style="font-size: 1.2rem; font-weight: bold; color: #cc0000;">$18.000</div>
+                <div>
+                    <label style="color: white; margin-right: 0.5rem;">Cant:</label>
+                    <input type="number" value="1" min="1" style="width: 50px; padding: 0.2rem; background: #222; color: white; border: 1px solid #444;">
+                </div>
             </div>
-            
-            <div style="display: flex; justify-content: space-between; font-size: 1.5rem; font-weight: bold; margin-top: 2rem;">
-                <span>TOTAL:</span>
-                <span style="color: #cc0000;">$18.000</span>
-            </div>
-        </div>
+        </section>
 
-        <div style="text-align: center;">
-            <a href="/" style="background-color: #333; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 4px; margin-right: 1rem; font-weight: bold;">Seguir Comprando</a>
-            <button style="background-color: #cc0000; color: white; border: none; padding: 1rem 2rem; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase;">Finalizar Compra</button>
-        </div>
+        <section style="background-color: #1a1a1a; padding: 2rem; border-radius: 5px; border: 1px solid #333; width: 100%; max-width: 600px; text-align: right;">
+            <h3 style="color: white; margin-bottom: 1rem;">Resumen de compra</h3>
+            <p style="color: white; font-size: 1.2rem; margin-bottom: 1.5rem;">Total: <strong>$18.000</strong></p>
+            <button class="btn-ver" style="background-color: #cc0000; color: white; padding: 10px 20px; border: none; cursor: pointer; font-weight: bold;">FINALIZAR COMPRA</button>
+        </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Cultura Nacional - Organización, memoria y lucha.</p>
+        <p>&copy; 2026 Cultura Nacional - Organización y lucha.</p>
     </footer>
 </body>
 </html>
