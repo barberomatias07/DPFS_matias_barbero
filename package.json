@@ -1,0 +1,23 @@
+{
+  "name": "dpfs_matias_barbero",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barberomatias07/DPFS_matias_barbero.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/barberomatias07/DPFS_matias_barbero/issues"
+  },
+  "homepage": "https://github.com/barberomatias07/DPFS_matias_barbero#readme",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
