@@ -17,117 +17,23 @@
             <h3>Catálogo de Resistencia</h3>
             <div class="grid-productos">
                 
-                <!-- 1. Che Guevara -->
+                <!-- BUCLE EJS QUE LEE TUS 8 REMERAS DEL JSON -->
+                <% products.forEach(producto => { %>
                 <article class="card-producto">
                     <div class="caja-imagen">
-                        <img src="/images/che.jpg.jpeg" alt="Che Guevara" style="width: 100%; height: 180px; object-fit: cover; background: #222;">
+                        <img src="/images/<%- producto.image %>" alt="<%- producto.name %>" style="width: 100%; height: 180px; object-fit: cover; background: #222;">
                     </div>
                     <div class="info-producto">
-                        <h4>Ernesto "Che" Guevara</h4>
-                        <p class="autor-frase">"Hasta la victoria siempre"</p>
-                        <p class="contexto-breve">Frase inmortalizada en su carta de despedida a Fidel Castro, símbolo universal de la lucha antiimperialista y la emancipación de los pueblos.</p>
-                        <p class="precio">$18.000</p>
-                        <a href="/detalle?id=che" class="btn-ver">Ver Detalle</a>
+                        <h4><%- producto.name %></h4>
+                        <p class="autor-frase"><%- producto.frase %></p>
+                        <p class="contexto-breve"><%- producto.description %></p>
+                        <p class="precio">$<%- producto.price %></p>
+                        <!-- ACÁ ESTÁ EL CAMBIO: de ?id= a / -->
+                        <a href="/detalle/<%- producto.id %>" class="btn-ver">Ver Detalle</a>
                     </div>
                 </article>
-
-                <!-- 2. Favaloro -->
-                <article class="card-producto">
-                    <div class="caja-imagen">
-                        <img src="/images/favaloro.jpg.jpeg" alt="René Favaloro" style="width: 100%; height: 180px; object-fit: cover; background: #222;">
-                    </div>
-                    <div class="info-producto">
-                        <h4>Dr. René Favaloro</h4>
-                        <p class="autor-frase">"Honestidad, responsabilidad y solidaridad"</p>
-                        <p class="contexto-breve">Estandarte ético frente a la corrupción estructural y el vaciamiento de la salud y la educación pública en la Argentina.</p>
-                        <p class="precio">$18.000</p>
-                        <a href="/detalle?id=favaloro" class="btn-ver">Ver Detalle</a>
-                    </div>
-                </article>
-
-                <!-- 3. José Font (Patón Soto) -->
-                <article class="card-producto">
-                    <div class="caja-imagen">
-                        <img src="/images/soto.jpg.jpeg" alt="Patón Soto" style="width: 100%; height: 180px; object-fit: cover; background: #222;">
-                    </div>
-                    <div class="info-producto">
-                        <h4>José Font "Patón" Soto</h4>
-                        <p class="autor-frase">"A triunfar definitivamente..."</p>
-                        <p class="contexto-breve">A triunfar definitivamente...</p>
-                        <p class="precio">$18.000</p>
-                        <a href="/detalle?id=soto" class="btn-ver">Ver Detalle</a>
-                    </div>
-                </article>
-
-                <!-- 4. Bairoletto -->
-                <article class="card-producto">
-                    <div class="caja-imagen">
-                        <img src="/images/bairoletto.jpg.jpeg" alt="Bairoletto" style="width: 100%; height: 180px; object-fit: cover; background: #222;">
-                    </div>
-                    <div class="info-producto">
-                        <h4>Juan Bautista Bairoletto</h4>
-                        <p class="autor-frase">"Viviré en el alma del pueblo"</p>
-                        <p class="contexto-breve">Bandido rural y justicia criollo de la década del '30, protector de los desposeídos frente a los abusos de los terratenientes.</p>
-                        <p class="precio">$18.000</p>
-                        <a href="/detalle?id=bairoletto" class="btn-ver">Ver Detalle</a>
-                    </div>
-                </article>
-
-                <!-- 5. Facón Grande -->
-                <article class="card-producto">
-                    <div class="caja-imagen">
-                        <img src="/images/facon.jpg.jpeg" alt="Facón Grande" style="width: 100%; height: 180px; object-fit: cover; background: #222;">
-                    </div>
-                    <div class="info-producto">
-                        <h4>Facón Grande (Huelgas Patagónicas)</h4>
-                        <p class="autor-frase">"Así no se mata a un criollo"</p>
-                        <p class="contexto-breve">Reclamo histórico exigiendo dignidad y respeto por la vida de los trabajadores rurales explotados en la Patagonia trágica.</p>
-                        <p class="precio">$18.000</p>
-                        <a href="/detalle?id=facon" class="btn-ver">Ver Detalle</a>
-                    </div>
-                </article>
-
-                <!-- 6. Indio Solari -->
-                <article class="card-producto">
-                    <div class="caja-imagen">
-                        <img src="/images/indio.jpg.jpeg" alt="Indio Solari" style="width: 100%; height: 180px; object-fit: cover; background: #222;">
-                    </div>
-                    <div class="info-producto">
-                        <h4>Indio Solari / Patricio Rey</h4>
-                        <p class="autor-frase">"Festejamos nuestra independencia"</p>
-                        <p class="contexto-breve">Himno del rock contestatario sobre la autonomía mental, la autogestión y el cuidado de la libertad frente al aparato hegemónico.</p>
-                        <p class="precio">$18.000</p>
-                        <a href="/detalle?id=indio" class="btn-ver">Ver Detalle</a>
-                    </div>
-                </article>
-
-                <!-- 7. Buenaventura Durruti -->
-                <article class="card-producto">
-                    <div class="caja-imagen">
-                        <img src="/images/durruti.jpg.jpeg" alt="Buenaventura Durruti" style="width: 100%; height: 180px; object-fit: cover; background: #222;">
-                    </div>
-                    <div class="info-producto">
-                        <h4>Buenaventura Durruti</h4>
-                        <p class="autor-frase">"Al fascismo no se le discute, se le destruye"</p>
-                        <p class="contexto-breve">Máxima anarcosindicalista de combate directo frente al avance autoritario en la Revolución Española y la resistencia global.</p>
-                        <p class="precio">$18.000</p>
-                        <a href="/detalle?id=durruti" class="btn-ver">Ver Detalle</a>
-                    </div>
-                </article>
-
-                <!-- 8. Karl Marx -->
-                <article class="card-producto">
-                    <div class="caja-imagen">
-                        <img src="/images/marx.jpg.jpeg" alt="Karl Marx" style="width: 100%; height: 180px; object-fit: cover; background: #222;">
-                    </div>
-                    <div class="info-producto">
-                        <h4>Karl Marx</h4>
-                        <p class="autor-frase">"Nothing to lose but your chains"</p>
-                        <p class="contexto-breve">Cierre del Manifiesto Comunista, llamado universal a la abolición de la explotación asalariada y la emancipación obrera.</p>
-                        <p class="precio">$18.000</p>
-                        <a href="/detalle?id=marx" class="btn-ver">Ver Detalle</a>
-                    </div>
-                </article>
+                <% }) %>
+                <!-- FIN DEL BUCLE -->
 
             </div>
         </section>

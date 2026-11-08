@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "firstName": "Matías",
+    "lastName": "Barbero",
+    "email": "matias@culturanacional.com",
+    "password": "password123",
+    "category": "admin",
+    "image": "avatar-default.png"
+  },
+  {
+    "id": 2,
+    "firstName": "Usuario",
+    "lastName": "Prueba",
+    "email": "cliente@gmail.com",
+    "password": "password123",
+    "category": "customer",
+    "image": "avatar-default.png"
+  }
+]

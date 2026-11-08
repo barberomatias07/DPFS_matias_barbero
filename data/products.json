@@ -1,0 +1,131 @@
+[
+ {
+  "id": "che",
+  "name": "Ernesto \"Che\" Guevara",
+  "frase": "\"Hasta la victoria siempre\"",
+  "description": "Frase inmortalizada en su carta de despedida a Fidel Castro, símbolo universal de la lucha antiimperialista y la emancipación de los pueblos.",
+  "image": "che.jpg.jpeg",
+  "category": "Remera",
+  "talles": [
+   "S",
+   "M",
+   "L",
+   "XL"
+  ],
+  "price": 18000
+ },
+ {
+  "id": "favaloro",
+  "name": "Dr. René Favaloro",
+  "frase": "\"Honestidad, responsabilidad y solidaridad\"",
+  "description": "Estandarte ético frente a la corrupción estructural y el vaciamiento de la salud y la educación pública en la Argentina.",
+  "image": "favaloro.jpg.jpeg",
+  "category": "Remera",
+  "talles": [
+   "S",
+   "M",
+   "L",
+   "XL"
+  ],
+  "price": 18000
+ },
+ {
+  "id": "soto",
+  "name": "José Font \"Patón\" Soto",
+  "frase": "\"A triunfar definitivamente...\"",
+  "description": "A triunfar definitivamente...",
+  "image": "soto.jpg.jpeg",
+  "category": "Remera",
+  "talles": [
+   "S",
+   "M",
+   "L",
+   "XL"
+  ],
+  "price": 18000
+ },
+ {
+  "id": "bairoletto",
+  "name": "Juan Bautista Bairoletto",
+  "frase": "\"Viviré en el alma del pueblo\"",
+  "description": "Bandido rural y justicia criollo de la década del '30, protector de los desposeídos frente a los abusos de los terratenientes.",
+  "image": "bairoletto.jpg.jpeg",
+  "category": "Remera",
+  "talles": [
+   "S",
+   "M",
+   "L",
+   "XL"
+  ],
+  "price": 18000
+ },
+ {
+  "id": "facon",
+  "name": "Facón Grande (Huelgas Patagónicas)",
+  "frase": "\"Así no se mata a un criollo\"",
+  "description": "Reclamo histórico exigiendo dignidad y respeto por la vida de los trabajadores rurales explotados en la Patagonia trágica.",
+  "image": "facon.jpg.jpeg",
+  "category": "Remera",
+  "talles": [
+   "S",
+   "M",
+   "L",
+   "XL"
+  ],
+  "price": 18000
+ },
+ {
+  "id": "indio",
+  "name": "Indio Solari / Patricio Rey",
+  "frase": "\"Festejamos nuestra independencia\"",
+  "description": "Himno del rock contestatario sobre la autonomía mental, la autogestión y el cuidado de la libertad frente al aparato hegemónico.",
+  "image": "indio.jpg.jpeg",
+  "category": "Remera",
+  "talles": [
+   "S",
+   "M",
+   "L",
+   "XL"
+  ],
+  "price": 18000
+ },
+ {
+  "id": "marx",
+  "name": "Karl Marx",
+  "frase": "\"Nothing to lose but your chains\"",
+  "description": "Cierre del Manifiesto Comunista, llamado universal a la abolición de la explotación asalariada y la emancipación obrera.",
+  "image": "marx.jpg.jpeg",
+  "category": "Remera",
+  "talles": [
+   "S",
+   "M",
+   "L",
+   "XL"
+  ],
+  "price": 18000
+ },
+ {
+  "id": "1794011980976",
+  "name": "Nunca mas ",
+  "frase": "Nuevo diseño",
+  "description": " 9 de diciembre de 1982, las Madres enfrentando a las fuerzas que les impedían ingresar a la Plaza para marchar por el Día Internacional de los Derechos Humanos.",
+  "image": "remera-1794011980969.jpg",
+  "category": "remera",
+  "talles": [
+   "XL"
+  ],
+  "price": 18000
+ },
+ {
+  "id": "1794012890022",
+  "name": "Maria Elena Walsh",
+  "frase": "Nuevo diseño",
+  "description": "La canción se interpreta como una crítica a la sociedad consumista y a la forma en que nos empuja a desear y comprar cosas materiales, cuando lo que un pibe necesita es tiempo suelto, no enjaulado adentro de un despertador, para jugar, imaginar y que le hablen.",
+  "image": "remera-1794012890013.jpeg",
+  "category": "remera",
+  "talles": [
+   "L"
+  ],
+  "price": 18000
+ }
+]

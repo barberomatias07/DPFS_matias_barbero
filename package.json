@@ -19,6 +19,8 @@
   "homepage": "https://github.com/barberomatias07/DPFS_matias_barbero#readme",
   "dependencies": {
     "ejs": "^7.0.2",
-    "express": "^5.3.0"
+    "express": "^5.3.0",
+    "method-override": "^3.0.0",
+    "multer": "^2.5.0"
   }
 }

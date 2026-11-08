@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
+const methodOverride = require('method-override'); // <-- ACÁ TRAEMOS EL TRADUCTOR
 
-// 1. Requerimos el archivo de rutas que acabás de crear
+// Requerimos el archivo de rutas
 const mainRoutes = require('./routes/mainRoutes');
 
 const app = express();
@@ -13,7 +14,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// 2. Le decimos a Express que use las rutas separadas
+// Habilitamos a Express para capturar datos de formularios (POST)
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// <-- ACÁ LO ACTIVAMOS (siempre antes de las rutas)
+app.use(methodOverride('_method')); 
+
+// Le decimos a Express que use las rutas separadas
 app.use('/', mainRoutes);
 
 // Levantamos el servidor en el puerto 3000
