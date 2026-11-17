@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../partials/head') %>
+    <style>
+        .biblioteca-container {
+            max-width: 1100px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            text-align: left;
+        }
+        .selector-publicaciones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .tab-pub {
+            background-color: #161616;
+            border: 2px solid #2e2e2e;
+            color: #ccc;
+            padding: 1.2rem 1.5rem;
+            border-radius: 6px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .tab-pub:hover {
+            border-color: #666;
+            color: #fff;
+        }
+        .tab-pub.activa {
+            background: linear-gradient(135deg, #241010 0%, #171717 100%);
+            border-color: #cc0000;
+            color: #f4efe6;
+            box-shadow: 0 4px 18px rgba(204, 0, 0, 0.2);
+        }
+        .tab-pub-tipo {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #ff4d4d;
+        }
+        .tab-pub-titulo {
+            font-size: 1.15rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .tab-pub-sub {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+        .edicion-banner {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-top: 3px solid #cc0000;
+            border-radius: 8px;
+            padding: 1.8rem 2rem;
+        }
+        .edicion-meta {
+            border-bottom: 1px solid #2e2e2e;
+            padding-bottom: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .edicion-tag {
+            color: #cc0000;
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .edicion-titulo {
+            margin: 0.3rem 0;
+            font-size: 1.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #f4efe6;
+        }
+        .edicion-bajada {
+            margin: 0;
+            color: #bbb;
+            font-size: 0.95rem;
+        }
+        .sumario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.8rem;
+            margin-top: 1.1rem;
+        }
+        .sumario-btn {
+            background-color: #222;
+            border: 1px solid #333;
+            border-left: 3px solid #cc0000;
+            color: #f4efe6;
+            padding: 0.8rem 1rem;
+            border-radius: 4px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .sumario-btn:hover {
+            background-color: #2b1414;
+            border-color: #cc0000;
+            transform: translateY(-2px);
+        }
+        .sumario-pag {
+            font-size: 0.75rem;
+            color: #ff4d4d;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sumario-tema {
+            font-size: 0.9rem;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+        .visor-box {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .visor-toolbar {
+            background-color: #222;
+            padding: 0.9rem 1.5rem;
+            border-bottom: 1px solid #333;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .visor-acciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+        .btn-visor {
+            background-color: #2a2a2a;
+            color: #f4efe6;
+            border: 1px solid #444;
+            padding: 0.55rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+        }
+        .btn-visor:hover {
+            background-color: #3a3a3a;
+        }
+        .btn-visor-rojo {
+            background-color: #cc0000;
+            border-color: #cc0000;
+            color: #fff;
+        }
+        .btn-visor-rojo:hover {
+            background-color: #a30000;
+        }
+        .pdf-frame {
+            width: 100%;
+            height: 850px;
+            border: none;
+            display: block;
+            background-color: #222;
+        }
+        .oculto {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/header') %>
+
+    <main style="display: flex; flex-direction: column; align-items: center; gap: 2.5rem; padding: 3rem 1rem; background-color: #111; color: white;">
+        
+        <!-- TU TARJETA ORIGINAL DE PERFIL DE MILITANTE -->
+        <div style="background-color: #1a1a1a; padding: 3rem; border-radius: 8px; border: 1px solid #333; max-width: 500px; width: 100%; text-align: center; box-sizing: border-box;">
+            
+            <h2 style="margin-top: 0; margin-bottom: 1.5rem;">Perfil de Militante</h2>
+            
+            <% if (locals.userLogged) { %>
+                <div style="margin-bottom: 1.5rem;">
+                    <img src="/images/users/<%= locals.userLogged.avatar || 'default-avatar.png' %>" alt="Avatar" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 2px solid #cc0000;">
+                </div>
+                
+                <p style="font-size: 1.2rem; margin-bottom: 0.5rem;"><strong>Nombre:</strong> <%= locals.userLogged.fullName %></p>
+                <p style="font-size: 1.1rem; color: #ccc; margin-bottom: 2rem;"><strong>Correo:</strong> <%= locals.userLogged.email %></p>
+                
+                <a href="/usuarios/logout" style="background-color: #cc0000; color: white; text-decoration: none; padding: 0.8rem 1.5rem; border-radius: 4px; font-weight: bold; text-transform: uppercase; display: inline-block;">
+                    Cerrar Sesión
+                </a>
+            <% } %>
+
+        </div>
+
+        <!-- BIBLIOTECA DE LA TRINCHERA (DIARIO + MANIFIESTO) -->
+        <% if (locals.userLogged) { %>
+            <div class="biblioteca-container">
+
+                <!-- Selector entre publicaciones -->
+                <section class="selector-publicaciones">
+                    <button type="button" id="tab-diario" class="tab-pub activa" onclick="seleccionarPublicacion('diario')">
+                        <span class="tab-pub-tipo">📰 Periódico Semanal • Edición N° 001</span>
+                        <span class="tab-pub-titulo">La Trinchera Digital</span>
+                        <span class="tab-pub-sub">Prensa de clase, cultura antifascista e internacionalismo (14 págs.)</span>
+                    </button>
+
+                    <button type="button" id="tab-manifiesto" class="tab-pub" onclick="seleccionarPublicacion('manifiesto')">
+                        <span class="tab-pub-tipo">📕 Documento Fundacional • Cipolletti 2026</span>
+                        <span class="tab-pub-titulo">Manifiesto del Proletariado Digital</span>
+                        <span class="tab-pub-sub">La lucha de clases en la era del código (6 págs.)</span>
+                    </button>
+                </section>
+
+                <!-- Sumario: La Trinchera Digital -->
+                <section id="panel-diario" class="edicion-banner">
+                    <div class="edicion-meta">
+                        <span class="edicion-tag">Edición Inaugural N° 001 • 17 de Noviembre de 2026</span>
+                        <h2 class="edicion-titulo">La Trinchera Digital</h2>
+                        <p class="edicion-bajada"><em>"Vestir la memoria, leer el presente, organizar el futuro."</em> — Tocá cualquier nota para saltar directo a esa página:</p>
+                    </div>
+
+                    <div class="sumario-grid">
+                        <button type="button" class="sumario-btn" onclick="irAPagina(1)">
+                            <span class="sumario-pag">Portada • Pág. 1</span>
+                            <span class="sumario-tema">Francia se levanta. Argentina resiste. Palestina vive.</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(3)">
+                            <span class="sumario-pag">Francia • Págs. 3-4</span>
+                            <span class="sumario-tema">La lucha estudiantil por la educación pública</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(5)">
+                            <span class="sumario-pag">Argentina • Pág. 5</span>
+                            <span class="sumario-tema">El costo social del modelo económico de Milei</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(6)">
+                            <span class="sumario-pag">Industria • Págs. 6-7</span>
+                            <span class="sumario-tema">El industricidio argentino y propuestas socialistas</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(8)">
+                            <span class="sumario-pag">Política Exterior • Pág. 8</span>
+                            <span class="sumario-tema">¿Soberanía o subordinación? ONU, Mercosur y Malvinas</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(9)">
+                            <span class="sumario-pag">Palestina • Págs. 9-10</span>
+                            <span class="sumario-tema">Genocidio, ocupación y responsabilidad internacional</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(11)">
+                            <span class="sumario-pag">Dossier Histórico • Págs. 11-12</span>
+                            <span class="sumario-tema">El antifascismo como tradición de lucha</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(13)">
+                            <span class="sumario-pag">Editorial de Cierre • Pág. 13</span>
+                            <span class="sumario-tema">No hay futuro sin organización + Fuentes</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Sumario: Manifiesto del Proletariado Digital -->
+                <section id="panel-manifiesto" class="edicion-banner oculto">
+                    <div class="edicion-meta">
+                        <span class="edicion-tag">Documento Teórico • Cipolletti 2026</span>
+                        <h2 class="edicion-titulo">Manifiesto del Proletariado Digital</h2>
+                        <p class="edicion-bajada"><em>"Un fantasma recorre los servidores globales: el fantasma de la liberación tecnológica."</em> — Saltá directo a cada tesis:</p>
+                    </div>
+
+                    <div class="sumario-grid">
+                        <button type="button" class="sumario-btn" onclick="irAPagina(1)">
+                            <span class="sumario-pag">Portada • Pág. 1</span>
+                            <span class="sumario-tema">La lucha de clases en la era del código</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(2)">
+                            <span class="sumario-pag">Tesis I y II • Pág. 2</span>
+                            <span class="sumario-tema">Burgueses, proletarios digitales y plataformización</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(3)">
+                            <span class="sumario-pag">Tesis III, IV y V • Pág. 3</span>
+                            <span class="sumario-tema">Meritocracia, IA represiva y granjas de bots</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(4)">
+                            <span class="sumario-pag">Tesis VI y VII • Pág. 4</span>
+                            <span class="sumario-tema">Doctrina del shock digital y apropiación tecnológica</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(5)">
+                            <span class="sumario-pag">Tesis VIII y IX • Pág. 5</span>
+                            <span class="sumario-tema">Cibercasinos y la unidad humano-máquina</span>
+                        </button>
+                        <button type="button" class="sumario-btn" onclick="irAPagina(6)">
+                            <span class="sumario-pag">Tesis X • Pág. 6</span>
+                            <span class="sumario-tema">Conclusión: El código libre o la barbarie</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Visor PDF -->
+                <section class="visor-box">
+                    <div class="visor-toolbar">
+                        <span id="visor-titulo-barra" style="font-weight: bold; font-size: 0.9rem; letter-spacing: 0.5px; color: #f4efe6;">
+                            📰 LECTURA EN LÍNEA — LA TRINCHERA DIGITAL N° 001
+                        </span>
+                        <div class="visor-acciones">
+                            <a id="btn-pantalla-completa" href="/La_Trinchera_Digital_001.pdf" target="_blank" class="btn-visor">
+                                Pantalla Completa ↗
+                            </a>
+                            <a id="btn-descargar-pdf" href="/La_Trinchera_Digital_001.pdf" download="La_Trinchera_Digital_001.pdf" class="btn-visor btn-visor-rojo">
+                                Descargar PDF ↓
+                            </a>
+                        </div>
+                    </div>
+
+                    <iframe id="visor-diario" src="/La_Trinchera_Digital_001.pdf#view=FitH" class="pdf-frame" title="Visor Cultura Nacional"></iframe>
+                </section>
+
+            </div>
+        <% } %>
+
+    </main>
+
+    <%- include('../partials/footer') %>
+
+    <script>
+        const publicaciones = {
+            diario: {
+                archivo: '/La_Trinchera_Digital_001.pdf',
+                nombreDescarga: 'La_Trinchera_Digital_001.pdf',
+                tituloBarra: '📰 LECTURA EN LÍNEA — LA TRINCHERA DIGITAL N° 001'
+            },
+            manifiesto: {
+                archivo: '/manifiesto_del_proletariado_digital.pdf',
+                nombreDescarga: 'manifiesto_del_proletariado_digital.pdf',
+                tituloBarra: '📕 LECTURA EN LÍNEA — MANIFIESTO DEL PROLETARIADO DIGITAL'
+            }
+        };
+
+        let publicacionActual = 'diario';
+
+        function seleccionarPublicacion(tipo) {
+            publicacionActual = tipo;
+            const datos = publicaciones[tipo];
+
+            document.getElementById('tab-diario').classList.toggle('activa', tipo === 'diario');
+            document.getElementById('tab-manifiesto').classList.toggle('activa', tipo === 'manifiesto');
+
+            document.getElementById('panel-diario').classList.toggle('oculto', tipo !== 'diario');
+            document.getElementById('panel-manifiesto').classList.toggle('oculto', tipo !== 'manifiesto');
+
+            document.getElementById('visor-titulo-barra').textContent = datos.tituloBarra;
+            const btnFull = document.getElementById('btn-pantalla-completa');
+            const btnDown = document.getElementById('btn-descargar-pdf');
+            btnFull.href = datos.archivo;
+            btnDown.href = datos.archivo;
+            btnDown.setAttribute('download', datos.nombreDescarga);
+
+            document.getElementById('visor-diario').src = datos.archivo + '#page=1&view=FitH';
+        }
+
+        function irAPagina(numeroPagina) {
+            const datos = publicaciones[publicacionActual];
+            const visor = document.getElementById('visor-diario');
+            visor.src = datos.archivo + '#page=' + numeroPagina + '&view=FitH';
+            visor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>

@@ -8,7 +8,16 @@
         <ul>
             <li><a href="/">Inicio</a></li>
             <li><a href="/carrito">Carrito</a></li>
-            <li><a href="/login">Ingresar / Registrarse</a></li>
+            
+            <!-- Acá le clavo el condicional de EJS: si tengo a alguien en sesión (isLogged), le muestro su perfil y el botón de salir -->
+            <% if (locals.isLogged) { %>
+                <li><a href="/usuarios/perfil">Mi Perfil (<%= locals.userLogged.fullName %>)</a></li>
+                <li><a href="/usuarios/logout">Cerrar Sesión</a></li>
+            <!-- Si no hay nadie logueado, le dejo el botón clásico para que entre o se registre -->
+            <% } else { %>
+                <li><a href="/usuarios/login">Ingresar / Registrarse</a></li>
+            <% } %>
+            
             <li><a href="/productos/crear">Crea tu remera</a></li>
             <li><a href="/">Nuevos diseños</a></li>
         </ul>
