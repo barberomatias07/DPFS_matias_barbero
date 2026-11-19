@@ -1,46 +1,119 @@
-# Retrospectiva del Sprint 1 - Cultura Nacional
+# Retrospectiva del Proyecto Integrador - Cultura Nacional (Sprints 1 al 6)
 
-Para evaluar el desarrollo del primer sprint del proyecto integrador, aplicamos la dinámica de la **estrella de mar**, analizando las distintas áreas de mejora y consolidación del flujo de trabajo.
+Para evaluar cómo fue evolucionando **Cultura Nacional** desde las primeras pantallas estáticas hasta la migración completa a base de datos relacional, armé esta retrospectiva aplicando la dinámica de la **estrella de mar** etapa por etapa.
 
-## 🌟 ¿Qué empezar a hacer?
-* Implementar tableros de gestión ágil (Trello o GitHub Projects) desde el día uno para subdividir mejor las Historias de Usuario.
-* Planificar con mayor anticipación la estructura de carpetas antes de inicializar el entorno local de Git.
+---
 
-## 🚀 ¿Qué hacer más?
-* Profundizar en el diseño y detalle de los wireframes para que sirvan como una guía más precisa durante el maquetado estático.
-* Mantener la constancia en las pruebas de comandos de Git y control de versiones para evitar conflictos de ramas.
-
-## ✅ ¿Qué continuar haciendo?
-* Mantener el código ordenado y la estructura de directorios prolija (`public/`, `wireframes/`, etc.).
-* Aplicar un enfoque analítico y directo en la resolución de errores técnicos de la terminal.
-
-## 📉 ¿Qué hacer menos?
-* Demorar la sincronización inicial con el repositorio remoto de GitHub.
-* Dejar la documentación y los archivos de retrospectiva para el final de la etapa.
-
-## 🛑 ¿Qué dejar de hacer?
-* Dudar de la resolución de conflictos en Git: abordarlos de inmediato en cuanto la terminal arroja una advertencia.
-# Retrospectiva del Sprint 2 y Sprint 3 - Cultura Nacional
-
-Para evaluar el desarrollo del segundo y tercer sprint del proyecto integrador, continuamos aplicando la dinámica de la **estrella de mar**, analizando cómo nos adaptamos a la implementación del servidor con Express, el motor de vistas EJS y la arquitectura MVC.
+# Sprint 1: Maquetado, Wireframes y Arranque en Git
 
 ## 🌟 ¿Qué empezar a hacer?
-- Separar las responsabilidades del código desde el principio (Patrón MVC): delegar las rutas al `Router` y la lógica de renderizado a los `Controllers` para no sobrecargar el archivo principal `app.js`.
-- Limpiar la caché del navegador (`Ctrl + F5`) obligatoriamente cada vez que se modifican archivos estáticos (CSS o imágenes) para evitar falsos errores de renderizado.
+- Armar tableros de seguimiento (Trello / GitHub Projects) desde el día uno para dividir las Historias de Usuario en tareas concretas y manejables.
+- Definir y ordenar la estructura de carpetas del proyecto antes de inicializar el repositorio local de Git.
 
 ## 🚀 ¿Qué hacer más?
-- Aprovechar al máximo el motor EJS implementando `partials` (`head`, `header`, `footer`) en todas las vistas nuevas, garantizando que el diseño y la navegación sean consistentes sin repetir código.
-- Revisar meticulosamente las rutas absolutas (con la barra inicial `/`) al enlazar archivos estáticos en la carpeta `public` para evitar que se rompan las vistas anidadas.
+- Detallar mejor los wireframes de escritorio y mobile para tener una referencia exacta al momento de tirar el HTML y el CSS.
+- Practicar con constancia el flujo básico de Git (`status`, `add`, `commit`, `push`) para mantener el historial limpio desde el arranque.
 
 ## ✅ ¿Qué continuar haciendo?
-- Mantener el enfoque analítico y metódico al momento de diagnosticar errores en el servidor Node o en la consola.
-- Sostener la coherencia visual del proyecto (estética oscura, bordes, tipografía) que le da identidad al sitio de Cultura Nacional.
-- Seguir utilizando buenas prácticas de Git, guardando el progreso al finalizar cada funcionalidad importante de los sprints.
+- Mantener la identidad visual oscura del sitio (fondos negros/grises, acentos en rojo, tipografía clara) y el orden prolijo de los directorios (`public/`, `wireframes/`).
+- Encarar los errores de consola de forma directa y analítica hasta encontrar la raíz del problema.
 
 ## 📉 ¿Qué hacer menos?
-- Dejar bloques de código HTML estático dentro de las vistas dinámicas: reemplazar de inmediato los encabezados y pies de página viejos por sus respectivos `<%- include %>`.
-- Concentrar rutas de forma manual en el archivo de entrada del servidor en lugar de modularizarlas.
+- Demorar la vinculación inicial con el repositorio remoto en GitHub.
+- Dejar el armado de la documentación y la retrospectiva para último momento.
 
 ## 🛑 ¿Qué dejar de hacer?
-- Utilizar rutas relativas (`./`) para llamar a imágenes y hojas de estilo en un entorno de Express; trabajar siempre con rutas absolutas para asegurar el correcto funcionamiento del motor de plantillas.
-- Olvidar reiniciar el servidor (`Ctrl + C` y `node app.js`) después de realizar cambios estructurales en los archivos JavaScript.
+- Dudar cuando aparecen advertencias o conflictos en Git: resolverlos en el momento antes de seguir metiendo código arriba.
+
+---
+
+# Sprints 2 y 3: Servidor Express, Arquitectura MVC y Vistas con EJS
+
+## 🌟 ¿Qué empezar a hacer?
+- Separar las responsabilidades desde el primer minuto bajo el patrón **MVC**: dejar `app.js` limpio para configuraciones globales, delegar las URLs a los archivos de `routes/` y mandar toda la lógica a los `controllers/`.
+- Usar `partials` de EJS (`head.ejs`, `header.ejs`, `footer.ejs`) para reutilizar la estructura base sin repetir bloques de HTML.
+
+## 🚀 ¿Qué hacer más?
+- Aprovechar el renderizado dinámico con EJS para alimentar el catálogo (`index.ejs`) y el detalle de cada prenda (`productDetail.ejs`) sin hardcodear datos en la vista.
+- Revisar siempre que los enlaces a hojas de estilo e imágenes apunten con rutas absolutas (`/css/...`, `/images/...`).
+
+## ✅ ¿Qué continuar haciendo?
+- Mantener modularizadas las rutas y vistas separando lo que es de productos y lo que es de usuarios.
+- Sostener la coherencia estética en cada pantalla nueva que se suma al proyecto.
+
+## 📉 ¿Qué hacer menos?
+- Dejar código HTML estático repetido en vistas que ya trabajan con plantillas dinámicas.
+- Concentrar demasiadas rutas sueltas en un mismo archivo sin agruparlas por recurso.
+
+## 🛑 ¿Qué dejar de hacer?
+- Usar rutas relativas (`./`) para llamar recursos de `public/` dentro de Express, porque se rompen apenas entrás a una ruta anidada como `/detalle/:id`.
+- Olvidar refrescar forzando caché (`Ctrl + F5`) cuando se ajustan estilos CSS.
+
+---
+
+# Sprint 4: Persistencia en JSON, Multer y CRUD Completo
+
+## 🌟 ¿Qué empezar a hacer?
+- Implementar **Multer** para atajar las fotos que subo desde los formularios de alta y edición, renombrándolas con `Date.now()` para que nunca se pisen dos imágenes con el mismo nombre.
+- Sumar `method-override` en `app.js` para poder mandar peticiones reales de tipo `PUT` (editar) y `DELETE` (borrar) desde los formularios HTML.
+
+## 🚀 ¿Qué hacer más?
+- Validar en el controlador de edición que, si no subo una foto nueva, la remera conserve la imagen que ya tenía guardada en lugar de quedar vacía.
+- Probar el ciclo completo del CRUD (Crear $\rightarrow$ Ver en Home $\rightarrow$ Editar $\rightarrow$ Borrar) cada vez que se toca el controlador de productos.
+
+## ✅ ¿Qué continuar haciendo?
+- Mantener el catálogo de remeras históricas y culturales bien estructurado con su nombre, frase, descripción, precio y lista de talles.
+- Guardar los avances en Git apenas queda andando cada operación del CRUD.
+
+## 📉 ¿Qué hacer menos?
+- Manipular a mano los archivos `.json` mientras el servidor está levantado, para evitar errores de sintaxis al leer o escribir datos.
+
+## 🛑 ¿Qué dejar de hacer?
+- Hardcodear productos nuevos directo en las vistas: toda alta, modificación o baja tiene que pasar sí o sí por las rutas y controladores del CRUD.
+
+---
+
+# Sprint 5: Autenticación, Encriptación, Sesiones y Middlewares
+
+## 🌟 ¿Qué empezar a hacer?
+- Encriptar todas las contraseñas con **`bcryptjs`** (`hashSync` al registrar y `compareSync` al loguear) para que jamás quede una clave en texto plano.
+- Implementar **`express-session`** y **`cookie-parser`** para mantener al usuario logueado mientras navega y recordar su sesión con una cookie si tilda *"Recordarme"*.
+- Armar middlewares propios (`userLoggedMiddleware`, `guestMiddleware`, `authMiddleware`) para compartir los datos del usuario con todas las vistas (`res.locals`) y proteger las rutas privadas.
+
+## 🚀 ¿Qué hacer más?
+- Limpiar datos sensibles antes de guardar al usuario en sesión (borrarle la propiedad `password` al objeto antes de meterlo en `req.session.userLogged`).
+- Usar Multer también en el registro de usuarios para que cada cuenta pueda subir su propio avatar o caer en una imagen por defecto si no sube nada.
+
+## ✅ ¿Qué continuar haciendo?
+- Mantener separados los flujos de usuarios (`usersRoutes.js` y `usersController.js`) de los de productos (`mainRoutes.js` y `mainController.js`).
+- Comentar paso a paso la lógica de seguridad y sesión para tener claro qué hace cada validación.
+
+## 📉 ¿Qué hacer menos?
+- Duplicar chequeos de sesión dentro de cada controlador cuando un middleware de ruta puede frenar o redirigir antes de entrar.
+
+## 🛑 ¿Qué dejar de hacer?
+- Guardar contraseñas sin hashear o mandar el objeto completo del usuario (con clave incluida) hacia las vistas EJS.
+
+---
+
+# Sprint 6: Base de Datos Relacional MySQL, Sequelize y Carrito Funcional
+
+## 🌟 ¿Qué empezar a hacer?
+- Diseñar el **Diagrama Entidad-Relación (DER)** y pasar toda la estructura a scripts SQL reproducibles (`structure.sql` y `data.sql`) para la base `cultura_nacional_db`.
+- Configurar **Sequelize** con `mysql2` mapeando las 6 tablas (`roles`, `users`, `categories`, `products`, `sizes` y la tabla intermedia N:M `product_sizes` con `ON DELETE CASCADE`) y sus asociaciones (`belongsTo`, `hasMany`, `belongsToMany`).
+- Hacer funcional de punta a punta el **carrito de compras** (`req.session.carrito`), conectándolo con MySQL para traer el precio real de cada remera, elegir el talle desde el detalle, actualizar cantidades, eliminar ítems y cerrar la compra.
+
+## 🚀 ¿Qué hacer más?
+- Trabajar todas las consultas a la base con funciones asíncronas (`async / await`) envueltas en bloques `try / catch` para capturar cualquier falla de conexión o consulta sin que se caiga el servidor.
+- Chequear en phpMyAdmin después de cada prueba de registro, creación o borrado que las tablas y las claves foráneas queden sincronizadas.
+
+## ✅ ¿Qué continuar haciendo?
+- Mantener la compatibilidad entre los datos que devuelve Sequelize y el formato que esperan las vistas EJS existentes para no romper el front-end durante la migración.
+- Verificar los logs SQL en la terminal al levantar con `npm start` para confirmar que cada vista consulta correctamente a MySQL.
+
+## 📉 ¿Qué hacer menos?
+- Cambiar de archivo rápido sin guardar (`Ctrl + S`) o sin reiniciar el servidor Node, ya que los cambios en controladores, modelos o rutas no se aplican hasta reiniciar el proceso.
+
+## 🛑 ¿Qué dejar de hacer?
+- Dejar funciones de controladores sin exportar o cruzadas entre archivos (que hacen que Express tire `TypeError: argument handler must be a function` al levantar las rutas).
+- Depender de archivos JSON locales ahora que toda la persistencia de usuarios, roles, categorías, talles y productos corre sobre MySQL.

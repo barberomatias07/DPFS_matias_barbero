@@ -1,127 +1,275 @@
-const fs = require('fs');
-const path = require('path');
+// Me traigo los modelos de Sequelize para consultar la base de datos en lugar del JSON
+const db = require('../database/models');
 
-// 1. Apuntamos a donde está el archivo JSON
-const productsFilePath = path.join(__dirname, '../data/products.json');
-// 2. Leemos el archivo y lo convertimos a formato JavaScript
-const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
+// Función auxiliar para acomodar los datos de Sequelize al formato que ya esperan mis vistas EJS
+const formatearProducto = (prod) => {
+    const data = prod.toJSON();
+    return {
+        ...data,
+        price: Number(data.price),
+        category: data.category ? data.category.name : 'Remera',
+        talles: data.sizes ? data.sizes.map(s => s.name) : []
+    };
+};
+
+// Función auxiliar para buscar el ID de la categoría según lo que escriba o elija en el formulario
+const resolverCategoriaId = async (nombreCategoria) => {
+    if (!nombreCategoria) return 1; // Por defecto cae en Remera (id 1)
+    const limpia = nombreCategoria.trim();
+    const categorias = await db.Category.findAll();
+    const encontrada = categorias.find(c => c.name.toLowerCase() === limpia.toLowerCase());
+    if (encontrada) return encontrada.id;
+
+    // Si escribí una categoría nueva que no existía en la tabla, la creo en el momento
+    const nueva = await db.Category.create({ name: limpia });
+    return nueva.id;
+};
 
 const mainController = {
-    home: (req, res) => {
-        // 3. Le enviamos los productos a la vista 'index'
-        res.render('index', { products: products });
+    home: async (req, res) => {
+        try {
+            // Me traigo todos los productos de MySQL incluyendo su categoría y sus talles
+            const productosDB = await db.Product.findAll({
+                include: ['category', 'sizes']
+            });
+            const products = productosDB.map(formatearProducto);
+
+            // Le mando los productos a la vista 'index'
+            res.render('index', { products });
+        } catch (error) {
+            console.error('Error al cargar el inicio:', error);
+            res.status(500).send('Error al cargar los productos desde la base de datos');
+        }
     },
-    detalle: (req, res) => {
-        // Atrapamos el ID que viene en la URL por el parámetro :id
-        let idRemera = req.params.id;
-        
-        // Buscamos en el array de productos el que coincida con ese ID
-        let remeraEncontrada = products.find(producto => producto.id === idRemera);
-        
-        // Renderizamos la vista y le enviamos la información de la remera específica
-        res.render('products/productDetail', { producto: remeraEncontrada });
+
+    detalle: async (req, res) => {
+        try {
+            // Busco en la base el producto que coincida con el ID de la URL
+            const remeraDB = await db.Product.findByPk(req.params.id, {
+                include: ['category', 'sizes']
+            });
+
+            if (!remeraDB) {
+                return res.redirect('/');
+            }
+
+            const remeraEncontrada = formatearProducto(remeraDB);
+            res.render('products/productDetail', { producto: remeraEncontrada });
+        } catch (error) {
+            console.error('Error al cargar el detalle:', error);
+            res.redirect('/');
+        }
     },
+
+    // ==========================================
+    // FUNCIONES DEL CARRITO DE COMPRAS (SESSION + MYSQL)
+    // ==========================================
     carrito: (req, res) => {
-        res.render('products/productCart');
+        const carrito = req.session.carrito || [];
+        const total = carrito.reduce((acum, item) => acum + (Number(item.price) * Number(item.cantidad)), 0);
+        const compraExitosa = req.query.compra === 'ok';
+
+        res.render('products/productCart', { carrito, total, compraExitosa });
     },
+
+    agregarAlCarrito: async (req, res) => {
+        try {
+            // Busco el producto real en MySQL para asegurar que el precio y los datos vengan de la base
+            const productoDB = await db.Product.findByPk(req.params.id);
+
+            if (!productoDB) {
+                return res.redirect('/');
+            }
+
+            if (!req.session.carrito) {
+                req.session.carrito = [];
+            }
+
+            const talleElegido = req.body.talle || 'M';
+            const idProducto = Number(productoDB.id);
+
+            // Me fijo si ya está exactamente la misma remera con el mismo talle en el carrito
+            const itemExistente = req.session.carrito.find(
+                item => item.id === idProducto && item.talle === talleElegido
+            );
+
+            if (itemExistente) {
+                itemExistente.cantidad += 1;
+            } else {
+                req.session.carrito.push({
+                    id: idProducto,
+                    name: productoDB.name,
+                    price: Number(productoDB.price),
+                    image: productoDB.image,
+                    talle: talleElegido,
+                    cantidad: 1
+                });
+            }
+
+            return res.redirect('/carrito');
+        } catch (error) {
+            console.error('Error al agregar al carrito:', error);
+            return res.redirect('/');
+        }
+    },
+
+    actualizarCarrito: (req, res) => {
+        const index = Number(req.params.index);
+        const nuevaCantidad = Number(req.body.cantidad);
+
+        if (req.session.carrito && req.session.carrito[index]) {
+            if (nuevaCantidad > 0) {
+                req.session.carrito[index].cantidad = nuevaCantidad;
+            } else {
+                req.session.carrito.splice(index, 1);
+            }
+        }
+
+        return res.redirect('/carrito');
+    },
+
+    eliminarDelCarrito: (req, res) => {
+        const index = Number(req.params.index);
+
+        if (req.session.carrito && req.session.carrito[index]) {
+            req.session.carrito.splice(index, 1);
+        }
+
+        return res.redirect('/carrito');
+    },
+
+    finalizarCompra: (req, res) => {
+        req.session.carrito = [];
+        return res.redirect('/carrito?compra=ok');
+    },
+
     login: (req, res) => {
         res.render('users/login');
     },
+
     register: (req, res) => {
         res.render('users/register');
     },
-    crearProducto: (req, res) => {
-        res.render('products/productAdd');
-    },
-    // ACA ESTA LA FUNCION PARA GUARDAR EL FORMULARIO:
-    guardarProducto: (req, res) => {
-        // 1. Armamos el objeto con los datos que llegaron del formulario
-        let nuevoProducto = {
-            id: Date.now().toString(), // Generamos un ID único automático
-            name: req.body.name,
-            frase: "Nuevo diseño", // Tu formulario no tiene campo frase, le ponemos uno genérico
-            description: req.body.description,
-            // ¡EL TOQUE FINAL! Atrapamos el nombre del archivo de Multer:
-            image: req.file ? req.file.filename : "default-image.png",
-            category: req.body.category,
-            talles: req.body.sizes ? req.body.sizes.split(',').map(t => t.trim()) : [], // Convierte "S, M, L" en un array y limpia espacios
-            price: Number(req.body.price)
-        };
-        
-        // 2. Lo empujamos al array de productos
-        products.push(nuevoProducto);
-        
-        // 3. Sobreescribimos el archivo JSON original con la lista actualizada
-        fs.writeFileSync(productsFilePath, JSON.stringify(products, null, ' '));
-        
-        // 4. Redirigimos a la Home para que veas tu nueva remera en pantalla
-        res.redirect('/');
-    },
-    
-    editarProducto: (req, res) => {
-        // 1. Atrapamos el ID de la URL
-        let idRemera = req.params.id;
-        
-        // 2. Buscamos la remera en el JSON
-        let remeraEncontrada = products.find(producto => producto.id === idRemera);
-        
-        // 3. Si no la encuentra, mandamos al inicio para que no rompa
-        if (!remeraEncontrada) {
-            return res.redirect('/');
-        }
 
-        // 4. Renderizamos la vista y LE PASAMOS LOS DATOS
-        res.render('products/productEdit', { producto: remeraEncontrada });
+    crearProducto: async (req, res) => {
+        try {
+            // Le paso también las categorías y talles por si los quiero usar en la vista
+            const categories = await db.Category.findAll();
+            const sizes = await db.Size.findAll();
+            res.render('products/productAdd', { categories, sizes });
+        } catch (error) {
+            console.error('Error al abrir formulario de creación:', error);
+            res.render('products/productAdd');
+        }
     },
 
     // ==========================================
-    // FUNCIÓN QUE RECIBE EL PUT (EDITAR)
+    // FUNCIÓN PARA GUARDAR UN PRODUCTO NUEVO (CREATE)
     // ==========================================
-    actualizarProducto: (req, res) => {
-        let idRemera = req.params.id;
-        
-        // 1. Buscamos la remera exacta en el array
-        let productoAEditar = products.find(producto => producto.id === idRemera);
-        
-        if (productoAEditar) {
-            // 2. ¿Subió imagen nueva? Si hay foto nueva la usamos. Si no, dejamos la que ya tenía.
-            let imagenFinal = req.file ? req.file.filename : productoAEditar.image;
-            
-            // 3. Pisamos los datos viejos con los datos nuevos del formulario
-            productoAEditar.name = req.body.name;
-            productoAEditar.description = req.body.description;
-            productoAEditar.image = imagenFinal;
-            productoAEditar.category = req.body.category;
-            productoAEditar.talles = req.body.sizes ? req.body.sizes.split(',').map(t => t.trim()) : [];
-            productoAEditar.price = Number(req.body.price);
-            
-            // 4. Guardamos la lista completa con los cambios en el JSON
-            fs.writeFileSync(productsFilePath, JSON.stringify(products, null, ' '));
+    guardarProducto: async (req, res) => {
+        try {
+            const categoryId = await resolverCategoriaId(req.body.category);
+
+            // Guardo el producto nuevo en la tabla products de MySQL
+            const nuevoProducto = await db.Product.create({
+                name: req.body.name,
+                frase: req.body.frase || 'Nuevo diseño',
+                description: req.body.description,
+                image: req.file ? req.file.filename : 'default-image.png',
+                price: Number(req.body.price),
+                categoryId: categoryId
+            });
+
+            // Si cargué talles separados por coma, los busco en la tabla sizes y los vinculo en product_sizes
+            if (req.body.sizes) {
+                const listaTalles = req.body.sizes
+                    .split(',')
+                    .map(t => t.trim().toUpperCase())
+                    .filter(Boolean);
+                const tallesDB = await db.Size.findAll({ where: { name: listaTalles } });
+                await nuevoProducto.setSizes(tallesDB);
+            }
+
+            res.redirect('/');
+        } catch (error) {
+            console.error('Error al guardar el producto:', error);
+            res.status(500).send('No se pudo guardar el producto');
         }
-        
-        // 5. Redirigimos a la Home para ver el cambio aplicado
-        res.redirect('/');
+    },
+
+    editarProducto: async (req, res) => {
+        try {
+            // Busco la remera en la base por su ID
+            const remeraDB = await db.Product.findByPk(req.params.id, {
+                include: ['category', 'sizes']
+            });
+
+            if (!remeraDB) {
+                return res.redirect('/');
+            }
+
+            const remeraEncontrada = formatearProducto(remeraDB);
+            res.render('products/productEdit', { producto: remeraEncontrada });
+        } catch (error) {
+            console.error('Error al abrir edición:', error);
+            res.redirect('/');
+        }
     },
 
     // ==========================================
-    // ¡ACÁ ESTÁ LA NUEVA FUNCIÓN PARA BORRAR (DELETE)!
+    // FUNCIÓN QUE RECIBE EL PUT PARA EDITAR (UPDATE)
     // ==========================================
-    borrarProducto: (req, res) => {
-        let idRemera = req.params.id;
-        
-        // 1. Buscamos en qué posición (índice) de la lista está este producto
-        let indice = products.findIndex(producto => producto.id === idRemera);
-        
-        // 2. Si lo encuentra (índice distinto de -1), lo arrancamos de la lista
-        if (indice !== -1) {
-            products.splice(indice, 1); // Elimina 1 elemento en la posición que encontró
-            
-            // 3. Sobreescribimos el JSON con la lista nueva (ya sin este producto)
-            fs.writeFileSync(productsFilePath, JSON.stringify(products, null, ' '));
+    actualizarProducto: async (req, res) => {
+        try {
+            const productoAEditar = await db.Product.findByPk(req.params.id);
+
+            if (productoAEditar) {
+                // Si subí imagen nueva la uso; si no, dejo la que ya tenía guardada
+                const imagenFinal = req.file ? req.file.filename : productoAEditar.image;
+                const categoryId = await resolverCategoriaId(req.body.category);
+
+                // Actualizo los datos en la tabla products
+                await productoAEditar.update({
+                    name: req.body.name,
+                    frase: req.body.frase || productoAEditar.frase,
+                    description: req.body.description,
+                    image: imagenFinal,
+                    price: Number(req.body.price),
+                    categoryId: categoryId
+                });
+
+                // Actualizo los talles en la tabla intermedia product_sizes
+                const listaTalles = req.body.sizes
+                    ? req.body.sizes.split(',').map(t => t.trim().toUpperCase()).filter(Boolean)
+                    : [];
+                const tallesDB = listaTalles.length
+                    ? await db.Size.findAll({ where: { name: listaTalles } })
+                    : [];
+                await productoAEditar.setSizes(tallesDB);
+            }
+
+            res.redirect('/');
+        } catch (error) {
+            console.error('Error al actualizar el producto:', error);
+            res.status(500).send('No se pudo actualizar el producto');
         }
-        
-        // 4. Redirigimos a la Home para ver que efectivamente desapareció
-        res.redirect('/');
+    },
+
+    // ==========================================
+    // FUNCIÓN PARA BORRAR UN PRODUCTO (DELETE)
+    // ==========================================
+    borrarProducto: async (req, res) => {
+        try {
+            // Borro el producto de MySQL (y por el ON DELETE CASCADE se limpian sus talles en product_sizes)
+            await db.Product.destroy({
+                where: { id: req.params.id }
+            });
+
+            res.redirect('/');
+        } catch (error) {
+            console.error('Error al borrar el producto:', error);
+            res.status(500).send('No se pudo borrar el producto');
+        }
     }
 };
 

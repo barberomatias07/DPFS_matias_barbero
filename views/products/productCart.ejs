@@ -6,33 +6,69 @@
 <body>
     <%- include('../partials/header') %>
 
-    <main style="display: flex; flex-direction: column; align-items: center; padding: 2rem;">
+    <main style="display: flex; flex-direction: column; align-items: center; padding: 2rem; min-height: 60vh;">
         <h2 style="color: white; margin-bottom: 2rem;">Tu Carrito</h2>
-        
-        <section style="background-color: #1a1a1a; padding: 2rem; border-radius: 5px; border: 1px solid #333; width: 100%; max-width: 600px; margin-bottom: 2rem;">
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <!-- Imagen del producto corregida -->
-                <img src="/images/che.jpg.jpeg" alt="Remera Che" style="width: 80px; height: 80px; object-fit: cover;">
-                
-                <div style="flex-grow: 1;">
-                    <h4 style="color: white; margin: 0 0 0.5rem 0;">Remera "Hasta la victoria siempre"</h4>
-                    <p style="color: #ccc; margin: 0 0 0.5rem 0; font-size: 0.9rem;">Talle: L</p>
-                    <p style="color: #cc0000; font-weight: bold; margin: 0;">$18.000</p>
-                </div>
-                <div>
-                    <label style="color: white; margin-right: 0.5rem;">Cant:</label>
-                    <input type="number" value="1" min="1" style="width: 50px; padding: 0.2rem; background: #222; color: white; border: 1px solid #444;">
-                </div>
-            </div>
-        </section>
 
-        <section style="background-color: #1a1a1a; padding: 2rem; border-radius: 5px; border: 1px solid #333; width: 100%; max-width: 600px; text-align: right;">
-            <h3 style="color: white; margin-bottom: 1rem;">Resumen de compra</h3>
-            <p style="color: white; font-size: 1.2rem; margin-bottom: 1.5rem;">Total: <strong>$18.000</strong></p>
-            <button class="btn-ver" style="background-color: #cc0000; color: white; padding: 10px 20px; border: none; cursor: pointer; font-weight: bold;">FINALIZAR COMPRA</button>
-        </section>
+        <% if (typeof compraExitosa !== 'undefined' && compraExitosa) { %>
+            <div style="background-color: #14532d; color: #bbf7d0; border: 1px solid #16a34a; padding: 1rem 2rem; border-radius: 5px; width: 100%; max-width: 600px; margin-bottom: 1.5rem; text-align: center; font-weight: bold;">
+                ¡Compra realizada con éxito! Gracias por bancar Cultura Nacional.
+            </div>
+        <% } %>
+
+        <% if (carrito && carrito.length > 0) { %>
+            <% carrito.forEach((item, index) => { %>
+                <section style="background-color: #1a1a1a; padding: 1.5rem 2rem; border-radius: 5px; border: 1px solid #333; width: 100%; max-width: 600px; margin-bottom: 1rem;">
+                    <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                        <img src="/images/<%= item.image %>" alt="<%= item.name %>" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid #444;">
+                        
+                        <div style="flex-grow: 1;">
+                            <h4 style="color: white; margin: 0 0 0.4rem 0;"><%= item.name %></h4>
+                            <p style="color: #ccc; margin: 0 0 0.4rem 0; font-size: 0.9rem;">Talle: <strong><%= item.talle %></strong></p>
+                            <p style="color: #cc0000; font-weight: bold; margin: 0;">
+                                $<%= Number(item.price).toLocaleString('es-AR') %> c/u — Subtotal: $<%= (Number(item.price) * Number(item.cantidad)).toLocaleString('es-AR') %>
+                            </p>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 0.8rem;">
+                            <form action="/carrito/actualizar/<%= index %>" method="POST" style="margin: 0; display: flex; align-items: center;">
+                                <label style="color: white; margin-right: 0.4rem;">Cant:</label>
+                                <input type="number" name="cantidad" value="<%= item.cantidad %>" min="1" onchange="this.form.submit()" style="width: 55px; padding: 0.3rem; background: #222; color: white; border: 1px solid #444; border-radius: 4px;">
+                            </form>
+
+                            <form action="/carrito/eliminar/<%= index %>" method="POST" style="margin: 0;">
+                                <button type="submit" title="Quitar del carrito" style="background-color: #7f1d1d; color: white; border: none; padding: 0.4rem 0.7rem; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                                    ✕
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            <% }) %>
+
+            <section style="background-color: #1a1a1a; padding: 2rem; border-radius: 5px; border: 1px solid #333; width: 100%; max-width: 600px; text-align: right; margin-top: 1rem;">
+                <h3 style="color: white; margin-bottom: 1rem;">Resumen de compra</h3>
+                <p style="color: white; font-size: 1.3rem; margin-bottom: 1.5rem;">
+                    Total: <strong style="color: #cc0000;">$<%= Number(total).toLocaleString('es-AR') %></strong>
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                    <a href="/" style="color: #ccc; text-decoration: underline;">← Seguir viendo remeras</a>
+                    <form action="/carrito/finalizar" method="POST" style="margin: 0;">
+                        <button type="submit" class="btn-ver" style="background-color: #cc0000; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; text-transform: uppercase;">
+                            FINALIZAR COMPRA
+                        </button>
+                    </form>
+                </div>
+            </section>
+        <% } else { %>
+            <section style="background-color: #1a1a1a; padding: 3rem 2rem; border-radius: 5px; border: 1px solid #333; width: 100%; max-width: 600px; text-align: center;">
+                <p style="color: #ccc; font-size: 1.1rem; margin-bottom: 1.5rem;">Todavía no agregaste ninguna remera a tu carrito.</p>
+                <a href="/" style="background-color: #cc0000; color: white; padding: 12px 24px; border-radius: 4px; text-decoration: none; font-weight: bold; text-transform: uppercase; display: inline-block;">
+                    Ir al catálogo
+                </a>
+            </section>
+        <% } %>
     </main>
 
-  <%- include('../partials/footer') %>
+    <%- include('../partials/footer') %>
 </body>
 </html>

@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 
-// Importamos el controlador que creaste recién
+// Importamos el controlador principal
 const mainController = require('../controllers/mainController');
 
 // --- CONFIGURACIÓN DE MULTER ---
@@ -24,8 +24,14 @@ const upload = multer({ storage });
 // Definimos todas las rutas y le decimos qué método del controlador usar
 router.get('/', mainController.home);
 router.get('/detalle/:id', mainController.detalle);
-router.get('/carrito', mainController.carrito);
 router.get('/login', mainController.login);
+
+// Rutas del carrito de compras
+router.get('/carrito', mainController.carrito);
+router.post('/carrito/agregar/:id', mainController.agregarAlCarrito);
+router.post('/carrito/actualizar/:index', mainController.actualizarCarrito);
+router.post('/carrito/eliminar/:index', mainController.eliminarDelCarrito);
+router.post('/carrito/finalizar', mainController.finalizarCompra);
 
 // Rutas de productos
 router.get('/productos/crear', mainController.crearProducto);

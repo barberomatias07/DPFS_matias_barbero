@@ -1,13 +1,7 @@
-const fs = require('fs');
-const path = require('path');
+// Me traigo los modelos de Sequelize para buscar al usuario en MySQL si tiene la cookie guardada
+const db = require('../database/models');
 
-// Me traigo mi función para leer el JSON de usuarios
-const getUsers = () => {
-    const usersJSON = fs.readFileSync(path.join(__dirname, '../data/users.json'), 'utf-8');
-    return usersJSON ? JSON.parse(usersJSON) : [];
-};
-
-function userLoggedMiddleware(req, res, next) {
+async function userLoggedMiddleware(req, res, next) {
     // 1. De entrada asumo que nadie está logueado, así que mando false a la vista
     res.locals.isLogged = false;
 
@@ -16,9 +10,21 @@ function userLoggedMiddleware(req, res, next) {
     let userFromCookie = null;
 
     if (emailInCookie) {
-        // Si hay cookie, busco a ese usuario en mi JSON
-        let users = getUsers();
-        userFromCookie = users.find(user => user.email === emailInCookie);
+        try {
+            // Si hay cookie, busco a ese usuario en mi base de datos incluyendo su rol
+            const userFound = await db.User.findOne({
+                where: { email: emailInCookie },
+                include: ['role']
+            });
+
+            if (userFound) {
+                // Lo paso a objeto plano y le vuelo la contraseña antes de meterlo en sesión
+                userFromCookie = userFound.toJSON();
+                delete userFromCookie.password;
+            }
+        } catch (error) {
+            console.error('Error al buscar el usuario desde la cookie:', error);
+        }
     }
 
     // 3. Si encontré al usuario por la cookie, lo meto de prepo en la sesión para que no tenga que volver a poner la clave

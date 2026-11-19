@@ -1,15 +1,6 @@
-const fs = require('fs');
-const path = require('path');
 const bcrypt = require('bcryptjs');
-
-// Apunto a mi archivo JSON donde guardo los usuarios
-const usersFilePath = path.join(__dirname, '../data/users.json');
-
-// Me armo esta funcioncita para leer el JSON siempre fresco y que no me tire error si está vacío
-const getUsers = () => {
-    const usersJSON = fs.readFileSync(usersFilePath, 'utf-8');
-    return usersJSON ? JSON.parse(usersJSON) : [];
-};
+// Me traigo los modelos de Sequelize para consultar la tabla users de MySQL
+const db = require('../database/models');
 
 const usersController = {
     // Muestro la vista del formulario de registro
@@ -17,26 +8,35 @@ const usersController = {
         res.render('users/register');
     },
     
-    // Acá atrapo el POST del registro, encripto la clave y guardo mi usuario nuevo
-    processRegister: (req, res) => {
-        let users = getUsers();
+    // Acá atrapo el POST del registro, encripto la clave y guardo mi usuario nuevo en la base
+    processRegister: async (req, res) => {
+        try {
+            // Chequeo primero si el email ya está registrado para que MySQL no me tire error de duplicado
+            const usuarioExistente = await db.User.findOne({
+                where: { email: req.body.email }
+            });
 
-        let newUser = {
-            id: Date.now().toString(),
-            fullName: req.body.fullName,
-            email: req.body.email,
-            // Le paso el bcrypt para que la contraseña quede encriptada y no se lea cruda en mi JSON
-            password: bcrypt.hashSync(req.body.password, 10),
-            // Si subí una foto por multer la uso, sino le clavo la imagen por defecto
-            avatar: req.file ? req.file.filename : 'default-avatar.png'
-        };
+            if (usuarioExistente) {
+                return res.render('users/register');
+            }
 
-        // Empujo el usuario al array y reescribo mi JSON
-        users.push(newUser);
-        fs.writeFileSync(usersFilePath, JSON.stringify(users, null, ' '));
+            // Creo el registro nuevo en la tabla users (por defecto entra con roleId: 2 que es customer)
+            await db.User.create({
+                fullName: req.body.fullName,
+                email: req.body.email,
+                // Le paso el bcrypt para que la contraseña quede encriptada y no se lea cruda en la base
+                password: bcrypt.hashSync(req.body.password, 10),
+                // Si subí una foto por multer la uso, sino le clavo la imagen por defecto
+                avatar: req.file ? req.file.filename : 'default-avatar.png',
+                roleId: 2
+            });
 
-        // Lo pateo al login para que entre de una con su cuenta recién creada
-        res.redirect('/usuarios/login');
+            // Lo pateo al login para que entre de una con su cuenta recién creada
+            return res.redirect('/usuarios/login');
+        } catch (error) {
+            console.error('Error al registrar el usuario:', error);
+            return res.status(500).send('No se pudo completar el registro');
+        }
     },
 
     // Muestro la vista del formulario de login
@@ -45,39 +45,45 @@ const usersController = {
     },
 
     // Esta función procesa los datos que me llegan por POST desde el formulario de Iniciar Sesión
-    processLogin: (req, res) => {
-        // Me traigo todos los usuarios de mi JSON
-        let users = getUsers();
-        
-        // 1. Busco a ver si encuentro algún usuario que tenga el mismo email que llegó del input
-        let userToLogin = users.find(user => user.email === req.body.email);
+    processLogin: async (req, res) => {
+        try {
+            // 1. Busco en la base a ver si encuentro algún usuario con ese email (y me traigo también su rol)
+            const userFound = await db.User.findOne({
+                where: { email: req.body.email },
+                include: ['role']
+            });
 
-        if (userToLogin) {
-            // 2. Si el email existe, comparo la contraseña del input con la que tengo guardada (encriptada)
-            let passwordOk = bcrypt.compareSync(req.body.password, userToLogin.password);
-            
-            if (passwordOk) {
-                // 3. ¡Entró bien! Por seguridad le vuelo la contraseña al objeto antes de mandarlo a la sesión
-                delete userToLogin.password;
+            if (userFound) {
+                // 2. Si el email existe, comparo la contraseña del input con la encriptada de la base
+                const passwordOk = bcrypt.compareSync(req.body.password, userFound.password);
                 
-                // Guardo los datos del usuario en req.session para que mi servidor lo recuerde mientras navega
-                req.session.userLogged = userToLogin;
+                if (passwordOk) {
+                    // 3. ¡Entró bien! Lo paso a objeto plano y le vuelo la contraseña antes de mandarlo a la sesión
+                    const userToLogin = userFound.toJSON();
+                    delete userToLogin.password;
+                    
+                    // Guardo los datos del usuario en req.session para que mi servidor lo recuerde mientras navega
+                    req.session.userLogged = userToLogin;
 
-                // 4. Si el loco tildó la cajita de "Recordarme", le clavo una cookie que dura un año
-                if (req.body.remember) {
-                    res.cookie('userEmail', req.body.email, { maxAge: (1000 * 60 * 60 * 24 * 365) });
+                    // 4. Si tildó la cajita de "Recordarme", le clavo una cookie que dura un año
+                    if (req.body.remember) {
+                        res.cookie('userEmail', req.body.email, { maxAge: (1000 * 60 * 60 * 24 * 365) });
+                    }
+
+                    // 5. Lo pateo a mi vista de Perfil
+                    return res.redirect('/usuarios/perfil');
                 }
-
-                // 5. Lo pateo a mi vista de Perfil
-                return res.redirect('/usuarios/perfil');
+                
+                // Si le erró a la contraseña, lo devuelvo a la vista de login
+                return res.render('users/login');
             }
             
-            // Si le erró a la contraseña, lo devuelvo a la vista de login
+            // Si el email directamente no existe en mi base, también lo devuelvo al login
+            return res.render('users/login');
+        } catch (error) {
+            console.error('Error al iniciar sesión:', error);
             return res.render('users/login');
         }
-        
-        // Si el email directamente no existe en mi base, también lo devuelvo al login
-        return res.render('users/login');
     },
 
     // Acá armo la función para mostrar mi perfil

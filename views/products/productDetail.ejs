@@ -29,26 +29,29 @@
                     <%= producto.description %>
                 </p>
 
-                <div style="margin-bottom: 2rem;">
-                    <label style="color: white; margin-right: 1rem; font-weight: bold;">Talle:</label>
-                    <select style="padding: 0.5rem; background-color: #222; color: white; border: 1px solid #444; border-radius: 4px;">
-                        <% if (producto.talles && producto.talles.length > 0) { %>
-                            <% producto.talles.forEach(talle => { %>
-                                <option value="<%= talle %>"><%= talle %></option>
-                            <% }) %>
-                        <% } else { %>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                        <% } %>
-                    </select>
-                </div>
+                <!-- Formulario POST para enviar el producto y el talle elegido al carrito -->
+                <form action="/carrito/agregar/<%= producto.id %>" method="POST" style="margin: 0; display: flex; flex-direction: column;">
+                    <div style="margin-bottom: 2rem;">
+                        <label for="talle" style="color: white; margin-right: 1rem; font-weight: bold;">Talle:</label>
+                        <select id="talle" name="talle" style="padding: 0.5rem; background-color: #222; color: white; border: 1px solid #444; border-radius: 4px;">
+                            <% if (producto.talles && producto.talles.length > 0) { %>
+                                <% producto.talles.forEach(talle => { %>
+                                    <option value="<%= talle %>"><%= talle %></option>
+                                <% }) %>
+                            <% } else { %>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                            <% } %>
+                        </select>
+                    </div>
 
-                <a href="/carrito" style="background-color: #cc0000; color: white; border: none; padding: 1rem; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; text-decoration: none; text-align: center; display: inline-block;">
-                    Agregar al carrito
-                </a>
+                    <button type="submit" style="background-color: #cc0000; color: white; border: none; padding: 1rem; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; text-align: center; width: 100%;">
+                        Agregar al carrito
+                    </button>
+                </form>
 
                 <!-- ========================================== -->
                 <!-- ACÁ ESTÁN LOS BOTONES DE ADMINISTRADOR     -->
