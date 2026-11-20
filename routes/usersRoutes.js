@@ -5,11 +5,12 @@ const path = require('path');
 
 const usersController = require('../controllers/usersController');
 
-// Middlewares de control de acceso
+// Middlewares de control de acceso y validaciones
 const guestMiddleware = require('../middlewares/guestMiddleware');
 const authMiddleware = require('../middlewares/authMiddleware');
+const { validateRegister, validateLogin } = require('../middlewares/userValidations');
 
-// Acá me configuro Multer para atajar las fotos de perfil y mandarlas a la carpeta correcta
+// Configuración de Multer para fotos de perfil
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.join(__dirname, '../public/images/users'));
@@ -21,17 +22,15 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Mis rutas para el Registro (solo visitantes sin sesión)
+// Registro
 router.get('/registro', guestMiddleware, usersController.register);
-// Atrapo el POST del registro y le paso el middleware de multer para que suba la imagen
-router.post('/registro', upload.single('avatar'), usersController.processRegister);
+router.post('/registro', upload.single('avatar'), validateRegister, usersController.processRegister);
 
-// Mis rutas para el Login (solo visitantes sin sesión)
+// Login
 router.get('/login', guestMiddleware, usersController.login);
-// Ruta para procesar los datos que me llegan del formulario de login por POST
-router.post('/login', usersController.processLogin);
+router.post('/login', validateLogin, usersController.processLogin);
 
-// Mis rutas para ver mi perfil (solo usuarios logueados) y para cerrar la sesión
+// Perfil y Logout
 router.get('/perfil', authMiddleware, usersController.profile);
 router.get('/logout', usersController.logout);
 

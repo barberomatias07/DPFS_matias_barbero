@@ -1,5 +1,7 @@
 // Me traigo los modelos de Sequelize para consultar la base de datos en lugar del JSON
 const db = require('../database/models');
+const { validationResult } = require('express-validator');
+const { borrarImagenProducto } = require('../middlewares/productValidations');
 
 // Función auxiliar para acomodar los datos de Sequelize al formato que ya esperan mis vistas EJS
 const formatearProducto = (prod) => {
@@ -168,6 +170,20 @@ const mainController = {
     // ==========================================
     guardarProducto: async (req, res) => {
         try {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                borrarImagenProducto(req.file);
+                const categories = await db.Category.findAll();
+                const sizes = await db.Size.findAll();
+                return res.render('products/productAdd', {
+                    categories,
+                    sizes,
+                    errors: errors.mapped(),
+                    oldData: req.body
+                });
+            }
+
             const categoryId = await resolverCategoriaId(req.body.category);
 
             // Guardo el producto nuevo en la tabla products de MySQL
@@ -221,6 +237,26 @@ const mainController = {
     // ==========================================
     actualizarProducto: async (req, res) => {
         try {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                borrarImagenProducto(req.file);
+                const remeraDB = await db.Product.findByPk(req.params.id, {
+                    include: ['category', 'sizes']
+                });
+
+                if (!remeraDB) {
+                    return res.redirect('/');
+                }
+
+                const remeraEncontrada = formatearProducto(remeraDB);
+                return res.render('products/productEdit', {
+                    producto: remeraEncontrada,
+                    errors: errors.mapped(),
+                    oldData: req.body
+                });
+            }
+
             const productoAEditar = await db.Product.findByPk(req.params.id);
 
             if (productoAEditar) {

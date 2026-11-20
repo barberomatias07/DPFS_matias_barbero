@@ -12,41 +12,59 @@
             <h2 style="color: white; margin-bottom: 1.5rem; text-align: center;">Cargar Nuevo Producto</h2>
             
             <!-- Formulario de creación: Se agregó enctype="multipart/form-data" para subir archivos -->
-            <form action="/productos" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1rem;">
+            <form id="formProductAdd" action="/productos" method="POST" enctype="multipart/form-data" novalidate style="display: flex; flex-direction: column; gap: 1rem;">
                 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Nombre del producto:</label>
-                    <input type="text" name="name" placeholder="Ej: Remera Juan Domingo Perón" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;" required>
+                    <input type="text" name="name" value="<%= locals.oldData ? oldData.name : '' %>" placeholder="Ej: Remera Juan Domingo Perón" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.name) ? errors.name.msg : '' %>
+                    </small>
                 </div>
 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Categoría:</label>
                     <select name="category" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
-                        <option value="remera">Remera</option>
-                        <option value="buzo">Buzo</option>
-                        <option value="accesorio">Accesorio</option>
+                        <option value="remera" <%= (locals.oldData && oldData.category === 'remera') ? 'selected' : '' %>>Remera</option>
+                        <option value="buzo" <%= (locals.oldData && oldData.category === 'buzo') ? 'selected' : '' %>>Buzo</option>
+                        <option value="accesorio" <%= (locals.oldData && oldData.category === 'accesorio') ? 'selected' : '' %>>Accesorio</option>
                     </select>
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.category) ? errors.category.msg : '' %>
+                    </small>
                 </div>
 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Talles disponibles (separados por coma):</label>
-                    <input type="text" name="sizes" placeholder="Ej: S, M, L, XL" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <input type="text" name="sizes" value="<%= locals.oldData ? oldData.sizes : '' %>" placeholder="Ej: S, M, L, XL" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.sizes) ? errors.sizes.msg : '' %>
+                    </small>
                 </div>
 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Precio ($):</label>
-                    <input type="number" name="price" placeholder="Ej: 18000" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;" required>
+                    <input type="number" name="price" value="<%= locals.oldData ? oldData.price : '' %>" placeholder="Ej: 18000" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.price) ? errors.price.msg : '' %>
+                    </small>
                 </div>
 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Imagen del producto:</label>
                     <!-- El input ya estaba en type="file", listo para Multer -->
-                    <input type="file" name="image" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <input type="file" name="image" accept="image/*" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.image) ? errors.image.msg : '' %>
+                    </small>
                 </div>
 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Descripción:</label>
-                    <textarea name="description" rows="4" placeholder="Ingresá la reseña histórica del producto..." style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; resize: none;" required></textarea>
+                    <textarea name="description" rows="4" placeholder="Ingresá la reseña histórica del producto..." style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; resize: none;"><%= locals.oldData ? oldData.description : '' %></textarea>
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.description) ? errors.description.msg : '' %>
+                    </small>
                 </div>
 
                 <button type="submit" style="background-color: #cc0000; color: white; padding: 12px; border: none; cursor: pointer; font-weight: bold; margin-top: 1rem; text-transform: uppercase;">Guardar Producto</button>
@@ -55,5 +73,6 @@
     </main>
 
     <%- include('../partials/footer') %>
+    <script src="/js/validations.js"></script>
 </body>
 </html>

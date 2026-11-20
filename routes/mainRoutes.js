@@ -3,8 +3,9 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 
-// Importamos el controlador principal
+// Importamos el controlador principal y las validaciones de productos
 const mainController = require('../controllers/mainController');
+const { validateProduct } = require('../middlewares/productValidations');
 
 // --- CONFIGURACIÓN DE MULTER ---
 const storage = multer.diskStorage({
@@ -37,16 +38,16 @@ router.post('/carrito/finalizar', mainController.finalizarCompra);
 router.get('/productos/crear', mainController.crearProducto);
 
 // upload.single('image') ataja la foto antes de ir al controlador
-router.post('/productos', upload.single('image'), mainController.guardarProducto);
+router.post('/productos', upload.single('image'), validateProduct, mainController.guardarProducto);
 
 // Ruta para mostrar el formulario de edición
 router.get('/productos/editar/:id', mainController.editarProducto);
 
 // Ruta para PROCESAR el formulario y guardar los cambios (PUT)
-router.put('/productos/editar/:id', upload.single('image'), mainController.actualizarProducto);
+router.put('/productos/editar/:id', upload.single('image'), validateProduct, mainController.actualizarProducto);
 
 // ==========================================
-// ¡ACÁ ESTÁ LA NUEVA RUTA PARA BORRAR!
+//  NUEVA RUTA PARA BORRAR!
 // ==========================================
 router.delete('/productos/borrar/:id', mainController.borrarProducto);
 

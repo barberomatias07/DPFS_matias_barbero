@@ -11,29 +11,38 @@
             
             <h2 style="color: white; margin-top: 0; margin-bottom: 2rem; text-align: center;">Crear Cuenta</h2>
             
-            <!-- Acá armo mi formulario de registro. Le clavo el enctype multipart/form-data SÍ O SÍ para que mi Multer me ataje la foto -->
-            <form action="/usuarios/registro" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <form id="formRegister" action="/usuarios/registro" method="POST" enctype="multipart/form-data" novalidate style="display: flex; flex-direction: column; gap: 1.5rem;">
                 
                 <div class="control-formulario">
                     <label for="fullName" style="color: white; font-weight: bold; display: block; margin-bottom: 0.5rem;">Nombre completo:</label>
-                    <!-- Le pongo name="fullName" para que mi controlador lo agarre bien con req.body.fullName -->
-                    <input type="text" id="fullName" name="fullName" required placeholder="Juan Pérez" style="width: 100%; padding: 0.8rem; background-color: #222; color: white; border: 1px solid #444; border-radius: 4px; box-sizing: border-box;">
+                    <input type="text" id="fullName" name="fullName" value="<%= locals.oldData ? oldData.fullName : '' %>" placeholder="Juan Pérez" style="width: 100%; padding: 0.8rem; background-color: #222; color: white; border: 1px solid #444; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.fullName) ? errors.fullName.msg : '' %>
+                    </small>
                 </div>
                 
                 <div class="control-formulario">
                     <label for="email" style="color: white; font-weight: bold; display: block; margin-bottom: 0.5rem;">Correo electrónico:</label>
-                    <input type="email" id="email" name="email" required placeholder="tu@email.com" style="width: 100%; padding: 0.8rem; background-color: #222; color: white; border: 1px solid #444; border-radius: 4px; box-sizing: border-box;">
+                    <input type="email" id="email" name="email" value="<%= locals.oldData ? oldData.email : '' %>" placeholder="tu@email.com" style="width: 100%; padding: 0.8rem; background-color: #222; color: white; border: 1px solid #444; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.email) ? errors.email.msg : '' %>
+                    </small>
                 </div>
                 
                 <div class="control-formulario">
                     <label for="password" style="color: white; font-weight: bold; display: block; margin-bottom: 0.5rem;">Contraseña:</label>
-                    <input type="password" id="password" name="password" required placeholder="********" style="width: 100%; padding: 0.8rem; background-color: #222; color: white; border: 1px solid #444; border-radius: 4px; box-sizing: border-box;">
+                    <input type="password" id="password" name="password" placeholder="********" style="width: 100%; padding: 0.8rem; background-color: #222; color: white; border: 1px solid #444; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.password) ? errors.password.msg : '' %>
+                    </small>
                 </div>
 
                 <div class="control-formulario">
                     <label for="avatar" style="color: white; font-weight: bold; display: block; margin-bottom: 0.5rem;">Foto de perfil:</label>
-                    <!-- Este input type file es el que espera mi middleware de Multer en la ruta -->
                     <input type="file" id="avatar" name="avatar" accept="image/*" style="width: 100%; color: white;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.avatar) ? errors.avatar.msg : '' %>
+                    </small>
                 </div>
 
                 <button type="submit" class="btn-ver" style="background-color: #cc0000; color: white; border: none; padding: 1rem; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; margin-top: 1rem;">
@@ -41,7 +50,6 @@
                 </button>
                 
                 <div style="text-align: center; margin-top: 1rem;">
-                    <!-- Frase de la trinchera actualizada -->
                     <a href="/usuarios/login" style="color: #cc0000; font-weight: bold; text-decoration: none; font-size: 0.95rem;">¿Ya sos parte de la trinchera? Ingresá acá</a>
                 </div>
             </form>
@@ -50,5 +58,6 @@
     </main>
 
     <%- include('../partials/footer') %>
+    <script src="/js/validations.js"></script>
 </body>
 </html>

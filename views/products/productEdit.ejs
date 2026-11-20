@@ -12,30 +12,43 @@
             <h2 style="color: white; margin-bottom: 1.5rem; text-align: center;">Editar: <%= producto.name %></h2>
             
             <!-- El action apunta a la ruta PUT para actualizar el producto específico -->
-            <form action="/productos/editar/<%= producto.id %>?_method=PUT" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1rem;">
+            <form id="formProductEdit" action="/productos/editar/<%= producto.id %>?_method=PUT" method="POST" enctype="multipart/form-data" novalidate style="display: flex; flex-direction: column; gap: 1rem;">
                 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Nombre del producto:</label>
-                    <input type="text" name="name" value="<%= producto.name %>" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;" required>
+                    <input type="text" name="name" value="<%= locals.oldData ? oldData.name : producto.name %>" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.name) ? errors.name.msg : '' %>
+                    </small>
                 </div>
 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Categoría:</label>
+                    <% const catActual = locals.oldData ? oldData.category : (producto.category ? producto.category.toLowerCase() : ''); %>
                     <select name="category" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
-                        <option value="remera" <%= producto.category === 'remera' ? 'selected' : '' %>>Remera</option>
-                        <option value="buzo" <%= producto.category === 'buzo' ? 'selected' : '' %>>Buzo</option>
-                        <option value="accesorio" <%= producto.category === 'accesorio' ? 'selected' : '' %>>Accesorio</option>
+                        <option value="remera" <%= catActual === 'remera' ? 'selected' : '' %>>Remera</option>
+                        <option value="buzo" <%= catActual === 'buzo' ? 'selected' : '' %>>Buzo</option>
+                        <option value="accesorio" <%= catActual === 'accesorio' ? 'selected' : '' %>>Accesorio</option>
                     </select>
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.category) ? errors.category.msg : '' %>
+                    </small>
                 </div>
 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Talles disponibles (separados por coma):</label>
-                    <input type="text" name="sizes" value="<%= producto.talles ? producto.talles.join(', ') : '' %>" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <input type="text" name="sizes" value="<%= locals.oldData ? oldData.sizes : (producto.talles ? producto.talles.join(', ') : '') %>" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.sizes) ? errors.sizes.msg : '' %>
+                    </small>
                 </div>
 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Precio ($):</label>
-                    <input type="number" name="price" value="<%= producto.price %>" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;" required>
+                    <input type="number" name="price" value="<%= locals.oldData ? oldData.price : producto.price %>" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.price) ? errors.price.msg : '' %>
+                    </small>
                 </div>
 
                 <div>
@@ -43,12 +56,18 @@
                     <img src="/images/<%= producto.image %>" alt="Imagen actual" style="width: 100px; display: block; margin-bottom: 1rem; border-radius: 4px; border: 1px solid #444;">
                     
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Subir nueva imagen (opcional):</label>
-                    <input type="file" name="image" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <input type="file" name="image" accept="image/*" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box;">
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.image) ? errors.image.msg : '' %>
+                    </small>
                 </div>
 
                 <div>
                     <label style="color: #ccc; display: block; margin-bottom: 0.5rem;">Descripción:</label>
-                    <textarea name="description" rows="4" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; resize: none;" required><%= producto.description %></textarea>
+                    <textarea name="description" rows="4" style="width: 100%; padding: 0.8rem; background-color: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; resize: none;"><%= locals.oldData ? oldData.description : producto.description %></textarea>
+                    <small class="error-msg" style="color: #ff4d4d; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+                        <%= (locals.errors && errors.description) ? errors.description.msg : '' %>
+                    </small>
                 </div>
 
                 <button type="submit" style="background-color: #cc0000; color: white; padding: 12px; border: none; cursor: pointer; font-weight: bold; margin-top: 1rem; text-transform: uppercase;">Guardar Cambios</button>
@@ -57,5 +76,6 @@
     </main>
 
     <%- include('../partials/footer') %>
+    <script src="/js/validations.js"></script>
 </body>
 </html>
