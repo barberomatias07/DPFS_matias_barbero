@@ -132,3 +132,18 @@ Para evaluar cómo fue evolucionando **Cultura Nacional** desde las primeras pan
   * Confiar en las validaciones nativas del navegador (`required`), usando `novalidate` para controlar los mensajes propios de la aplicación.
 * **Dejar de hacer (Stop Doing):**
   * Trackear carpetas pesadas como `node_modules` en el repositorio; asegurar su exclusión en `.gitignore`.
+  ## Retrospectiva - Sprint 8 (APIs y Dashboard en React)
+
+* **Comenzar a hacer (Start Doing):**
+  * Exponer endpoints REST desacoplados con estructuras JSON claras y sin información sensible para alimentar aplicaciones externas.
+  * Configurar `cors` desde el inicio cuando se conecta un front-end independiente como React con un servidor Express.
+* **Hacer más (More Of):**
+  * Modularizar la interfaz en componentes reutilizables (`MetricCard`, `LastProductPanel`, `CategoriesPanel`, `ProductsListPanel`) para mantener el código limpio y escalable.
+  * Verificar cada endpoint en el navegador antes de consumirlo desde el front-end.
+* **Continuar haciendo (Continue Doing):**
+  * Mantener la coherencia visual entre la tienda principal y el panel administrativo.
+  * Trabajar en bloques cortos probando la conexión real contra MySQL en cada paso.
+* **Hacer menos (Less Of):**
+  * Hardcodear datos de prueba en el front-end cuando ya se cuenta con una API conectada a la base de datos.
+* **Dejar de hacer (Stop Doing):**
+  * Dejar carpetas de dependencias sin ignorar al crear subproyectos nuevos (`dashboard/node_modules`).
