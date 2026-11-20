@@ -117,3 +117,18 @@ Para evaluar cómo fue evolucionando **Cultura Nacional** desde las primeras pan
 ## 🛑 ¿Qué dejar de hacer?
 - Dejar funciones de controladores sin exportar o cruzadas entre archivos (que hacen que Express tire `TypeError: argument handler must be a function` al levantar las rutas).
 - Depender de archivos JSON locales ahora que toda la persistencia de usuarios, roles, categorías, talles y productos corre sobre MySQL.
+## Retrospectiva - Sprint 7 (Validaciones)
+
+* **Comenzar a hacer (Start Doing):**
+  * Validar siempre en doble capa: en el navegador con JavaScript para dar respuesta inmediata y en el servidor con `express-validator` para proteger MySQL.
+  * Limpiar automáticamente las imágenes subidas por Multer cuando falla alguna validación en el controlador.
+* **Hacer más (More Of):**
+  * Probar todos los casos borde de cada formulario (campos vacíos, longitudes mínimas, emails duplicados y extensiones de archivo inválidas) antes de commitear.
+  * Mantener las reglas desacopladas en archivos propios dentro de `middlewares/` (`userValidations.js` y `productValidations.js`).
+* **Continuar haciendo (Continue Doing):**
+  * Persistir los datos cargados (`oldData`) cuando un formulario vuelve con errores para mejorar la experiencia del usuario.
+  * Dividir el desarrollo en bloques cortos verificables paso a paso.
+* **Hacer menos (Less Of):**
+  * Confiar en las validaciones nativas del navegador (`required`), usando `novalidate` para controlar los mensajes propios de la aplicación.
+* **Dejar de hacer (Stop Doing):**
+  * Trackear carpetas pesadas como `node_modules` en el repositorio; asegurar su exclusión en `.gitignore`.
